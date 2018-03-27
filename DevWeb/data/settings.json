@@ -1,0 +1,7 @@
+{
+  "$schema": "./settings.schema.json",
+  "cookie-secret": "jjo-dds",
+  "language-support": [
+    "ko-KR"
+  ]
+}

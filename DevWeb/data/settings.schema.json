@@ -1,0 +1,15 @@
+{
+  "title": "root",
+  "type": "object",
+  "properties": {
+    "cookie-secret": {
+      "type": "string"
+    },
+    "language-support": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
