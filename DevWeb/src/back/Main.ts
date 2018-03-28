@@ -2,15 +2,15 @@ import Path = require("path");
 import Express = require("express");
 import CookieParser = require("cookie-parser");
 import Spdy = require("spdy");
-import JJLog from "jj-log";
+import Logger from "jj-log";
 
 import ReactNest = require("./utils/ReactNest");
 import { getProjectData, SETTINGS } from "./utils/System";
 
-const SPDY_OPTIONS:Spdy.server.ServerOptions = {
-  key: getProjectData("server.key"),
-  cert: getProjectData("server.crt")
-};
+const SPDY_OPTIONS:Spdy.server.ServerOptions = SETTINGS['https'] ? {
+  key: getProjectData(SETTINGS['https']['key']),
+  cert: getProjectData(SETTINGS['https']['cert'])
+} : null;
 const App = Express();
 
 App.engine("js", ReactNest.Engine);
@@ -27,6 +27,12 @@ App.get("/gwalli/load-languages", (req, res) => {
 });
 App.get("/", ReactNest.PageBuilder("Index"));
 
-Spdy.createServer(SPDY_OPTIONS, App).listen(443, () => {
-  JJLog.success("HTTPS Server");
-});
+if(SPDY_OPTIONS){
+  Spdy.createServer(SPDY_OPTIONS, App).listen(SETTINGS['port'], () => {
+    Logger.success("HTTPS Server");
+  });
+}else{
+  App.listen(SETTINGS['port'], () => {
+    Logger.success("HTTP Server");
+  });
+}

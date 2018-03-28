@@ -7,7 +7,7 @@ export default class Footer extends JJorm{
 
   render():React.ReactNode{
     return <footer>
-      Hello, World!!
+      ---FOOTER---
     </footer>;
   }
 }

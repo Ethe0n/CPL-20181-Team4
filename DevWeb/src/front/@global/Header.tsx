@@ -7,7 +7,7 @@ export default class Header extends JJorm{
 
   render():React.ReactNode{
     return <header>
-      Hello, World!
+      ---HEADER---
     </header>;
   }
 }

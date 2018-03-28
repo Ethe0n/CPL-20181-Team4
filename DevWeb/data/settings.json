@@ -1,5 +1,6 @@
 {
   "$schema": "./settings.schema.json",
+  "port": 80,
   "cookie-secret": "jjo-dds",
   "language-support": [
     "ko-KR"

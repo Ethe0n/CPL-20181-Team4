@@ -1,2 +1,6 @@
-// 프로젝트의 스타일시트 전역에서 쓰이는 것들
 @import "./const.scss";
+
+body{
+  margin: 0;
+  font-size: $fs-normal;
+}
