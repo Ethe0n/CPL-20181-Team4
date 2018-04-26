@@ -1,8 +1,132 @@
 {
   "$global": {
-    "test": "반가워요"
+    "nav-introduction": "소개",
+    "nav-about-mindelevation": "마인드 엘리베이션",
+    "nav-about-sketchbook": "마음읽는 스케치북",
+    "nav-store": "상점",
+    "nav-account": "계정",
+    "nav-account-on": "{{B|{#0}}} 님",
+    "nav-account-logout": "로그아웃",
+    "nav-language": "{{FA|globe}}",
+
+    "OK": "{{FA|check}} 확인",
+    "BACK": "뒤로",
+    "PROGRESS": "{{FA|@spinner}} 처리 중",
+
+    "footer-legal": "이용 약관",
+    "footer-privacy": "개인정보 취급방침",
+    "footer-business": "사업자 정보 확인",
+
+    "toast-xhr-error": "서버와의 통신({#0})에 오류(#{#1})가 발생했습니다.",
+    "toast-please-verify": "이메일 인증을 진행해 주세요!",
+
+    "message-login-failure": "로그인에 실패했습니다.",
+    "message-email-verified": "이메일 인증에 성공했습니다.",
+
+    "USER-TYPE-2": "개인",
+    "USER-TYPE-3": "단체"
+  },
+  "_Email": {
+    "title": "[마인드 엘리베이션] 이메일 인증 메일입니다.",
+    "desc-1": "{#0} 님이 (주) 마인드 엘리베이션 홈페이지에서 {#1} 본 이메일 주소로 이메일 인증을 시도했습니다.",
+    "desc-2": "이메일 인증을 완료하려면 아래 링크를 클릭하세요.",
+    "verify": "인증하기"
   },
   "Index": {
-    "title": "안녕, 세계!"
+    "title": "마인드 엘리베이션",
+    "masthead-h1": "MY MIND IS MINE : ) :",
+    "masthead-p": "심리학! 내 마음이 궁금해! 마음읽는 스케치북{{BR}}빠르고 정확한 멘탈 스크리닝 툴입니다."
+  },
+  "Introduction": {
+    "title": "소개 - 마인드 엘리베이션"
+  },
+  "Account": {
+    "title": "내 정보 - 마인드 엘리베이션",
+
+    "head": "내 정보",
+    "user-id": "아이디",
+    "user-type": "유형",
+    "user-name": "성명",
+    "user-email": "이메일 주소",
+    "user-phone": "연락처",
+    "user-nickname": "별명",
+    "user-mindCash": "마인드캐시",
+    "user-createdAt": "가입 일시",
+    "user-enteredAt": "최근 로그인 일시",
+
+    "email-verified": "{{FA|check}} 인증됨",
+    "email-unverified": "{{FA|exclamation-triangle}} 인증되지 않음",
+    "email-unverified-help": "{{FA|info-circle}} 이메일 인증을 완료해야 모든 서비스를 이용하실 수 있습니다.",
+    "email-verify-again": "이메일 인증 다시 진행하기",
+
+    "toast-email-sent": "이메일 인증 메일을 전송했습니다."
+  },
+  "AccountLogin": {
+    "title": "로그인 - 마인드 엘리베이션",
+    "login": "로그인",
+    "input-id": "아이디",
+    "input-password": "암호",
+    "input-save-id": "아이디 저장",
+    "account-find": "계정 찾기",
+    "account-join": "회원 가입"
+  },
+  "AboutSketchbook": {
+    "title": "AboutSketchbook - neomind"
+  },
+  "AccountJoin": {
+    "title": "회원 가입 - 마인드 엘리베이션",
+
+    "join": "회원 가입",
+    "about-legal": "아래 내용을 읽고 내용에 동의해야 회원 가입을 진행할 수 있습니다.",
+    "about-user-type": "회원의 유형을 선택해 주세요.",
+    "about-join": "아래 양식에 정보를 입력해 주세요.{{BR}}{{SPAN|*|required}} 표시된 항목은 필수 항목입니다.",
+    "about-finish": "가입이 완료되었습니다!",
+
+    "input-agree": "위 이용 약관과 개인정보 취급방침에 동의합니다.",
+    "input-user-full": "개인 회원",
+    "input-user-group": "단체 회원",
+
+    "input-user-type-mantle": "회원 유형",
+    "input-id": "아이디{{SPAN|*|required}}",
+    "input-pw": "암호{{SPAN|*|required}}",
+    "input-pw-repeat": "암호(다시 입력){{SPAN|*|required}}",
+    "input-name": "성명{{SPAN|*|required}}",
+    "input-email": "이메일 주소{{SPAN|*|required}}",
+    "input-phone": "연락처",
+    "input-nickname": "별명",
+
+    "input-notice": "입력한 이메일 주소로 인증 메일을 발송했습니다.{{BR}}인증 메일에 첨부된 링크를 클릭해 본인 인증을 완료하고 모든 서비스를 이용하세요.",
+
+    "error-403-join-password-mismatch": "암호를 다시 입력해 주세요.",
+    "error-403-join-id-form": "아이디는 영문자와 숫자를 조합한 6~64자로 정해야 합니다.",
+    "error-403-join-pw-form": "암호는 영문자와 숫자가 들어간 6~64자로 정해야 합니다.",
+    "error-403-join-name-form": "성명을 입력해 주세요.",
+    "error-403-join-email-form": "이메일 주소를 올바르게 입력해 주세요.",
+    "error-403-join-phone-form": "연락처를 올바르게 입력해 주세요.",
+    "error-403-join-nickname-form": "별명은 2~32자로 정해야 합니다.",
+    "error-403-join-data-taken": "이미 사용 중인 아이디 또는 이메일 주소입니다."
+  },
+  "Mindle": {
+    "title": "민들레 - 마인드 엘리베이션",
+
+    "ai": "민들레",
+
+    "chat-a-yes": "응.",
+    "chat-a-no-later": "아니, 다음에 하자.",
+
+    "chat-oops-0": "이런! 무언가가 잘못되었어요.",
+    "chat-oops-1": "제가 잠깐 헷갈렸나 봐요. 처음부터 다시 시작해요.",
+    "chat-a-restart": "처음부터 하자.",
+
+    "chat-welcome": "{#0} 님, 안녕하세요!",
+    "chat-first": "무엇을 도와드릴까요?",
+    "chat-first-again": "그럼 이제 무엇을 도와드릴까요?",
+    "chat-a-write-weather": "내 마음날씨를 알려 줄게.",
+    "chat-a-write-sketchbook": "내 마음읽는 스케치북을 검사 받고 싶어.",
+    "chat-a-take-test": "지금 내 마음이 어떤지 궁금해.",
+    "chat-a-read-report": "내 마음의 기록을 볼래.",
+
+    "chat-lets-test": "그럼 지금부터 몇 가지 질문을 해 볼게요.",
+    "chat-ready-test": "질문을 받을 준비가 되었나요?"
   }
 }

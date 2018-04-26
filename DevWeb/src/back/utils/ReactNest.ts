@@ -7,7 +7,7 @@ import { getProjectData, SETTINGS } from "./System";
 
 const HTML_TEMPLATE = getProjectData("template.html").toString();
 const LANGUAGE_SUPPORT = SETTINGS['language-support'];
-let LANGUAGES:Table<string>;
+let LANGUAGE_JSONS:Table<string>;
 
 const READER_TITLE = createReader("TITLE");
 const READER_BODY = createReader("BODY");
@@ -18,6 +18,10 @@ const READER_NEST = /("?)\/\*\{(.+?)\}\*\/\1/g;
 function createReader(key:string):RegExp{
   return new RegExp(`("?)/\\* %%${key}%% \\*/\\1`, "g");
 }
+/**
+ * 서버 용 문자열표
+ */
+export const LANGUAGES:Table<Table<string>> = {};
 /**
  * 프로젝트 데이터 폴더 내의 언어 파일을 새로 읽어 문자열표로 가공 후 메모리에 올린다.
  * 
@@ -39,12 +43,21 @@ export function loadLanguages():void{
         ...(prototable['$global'] || {}),
         ...prototable[page]
       };
+      LANGUAGES[key] = table;
       R[key] = JSON.stringify(table);
       R[`${key}#title`] = table['title'];
     }
   }
-  LANGUAGES = R;
+  LANGUAGE_JSONS = R;
   Logger.info("Languages has been updated.");
+}
+/**
+ * 주어진 요청 객체의 쿠키 및 헤더를 읽고 사용 가능한 언어를 결정해 반환한다.
+ * 
+ * @param req Express 요청 객체
+ */
+export function getLocale(req:Express.Request):string{
+  return req.cookies['locale'] || ALP.pick(LANGUAGE_SUPPORT, req.header('Accept-Language'));
 }
 /**
  * 주어진 페이지를 렌더하는 Express 끝점 클로저를 반환한다.
@@ -53,11 +66,13 @@ export function loadLanguages():void{
  */
 export function PageBuilder(page:string):Express.RequestHandler{
   return (req, res) => {
-    const locale:string = req.cookies['locale'] || ALP.pick(LANGUAGE_SUPPORT, req.header('Accept-Language'));
+    const locale:string = getLocale(req);
 
     res.render(page, {
+      user: req.user,
       page: page,
-      locale: locale
+      locale: locale,
+      message: req.session && req.session['messages'] && req.session['messages'].pop()
     });
   };
 }
@@ -80,9 +95,9 @@ export function Engine(
     : "development"
   ;
   const KEY = `${$.locale}/${$.page}`;
-  const LANGUAGE_TABLE_STRING = LANGUAGES[KEY];
+  const LANGUAGE_TABLE_STRING = LANGUAGE_JSONS[KEY];
 
-  $.title = LANGUAGES[`${KEY}#title`];
+  $.title = LANGUAGE_JSONS[`${KEY}#title`];
 
   // Express 내부적으로 정의한 정보가 외부에 노출되지 않도록 삭제
   delete ($ as any)['settings'];

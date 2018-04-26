@@ -1,0 +1,10 @@
+@import "../const.scss";
+
+.input{
+  display: grid;
+  grid-auto-flow: column;
+  margin: 2px 0;
+  >label{
+    align-self: center;
+  }
+}

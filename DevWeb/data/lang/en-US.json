@@ -1,0 +1,31 @@
+{
+  "$global": {
+    "footer-title": "㈜ 마인드 엘리베이션",
+    "nav-introduction": "Introduction",
+    "nav-store": "Store",
+    "nav-account": "Account",
+    "nav-language": "Language",
+    "nav-about-mindelevation": "About - Mind Elevation",
+    "nav-about-sketchbook": "About - Sketchbook"
+  },
+  "Index": {
+    "title": "Mind Elevation",
+    "masthead-h1": "MY MIND IS MIND : ) : ",
+    "masthead-p": "Know yourself to care about yourself, using our mental screening tool, {{BR}} The Mind Reading Sketchbook."
+  },
+  "Introduction": {
+    "title": "About - Mind Elevation"
+  },
+  "AboutSketchbook": {
+    "title": "About- Sketchbook"
+  },
+  "AccountJoin": {
+    "title": "AccountJoin - neomind"
+  },
+  "Account": {
+    "title": "Account - neomind"
+  },
+  "Mindle": {
+    "title": "Mindle - neomind"
+  }
+}

@@ -1,23 +1,22 @@
 import React = require("react");
 
-type ActionReceiverTable = {
-  [key:string]: (data:any) => void
+export type ActionReceiverTable = {
+  [key:string]: (...args:any[]) => void
 };
-type ActionReceiverPolytable = {
-  [key:string]: Array<(data:any) => void>
+export type ActionReceiverPolytable = {
+  [key:string]: Array<(...args:any[]) => void>
 };
 
 export default abstract class JJorm<P = {}, S = {}> extends React.Component<P, S>{
   private static ACTION_RECEIVER_POLYTABLE:ActionReceiverPolytable = {};
 
-  public static trigger(type:string, data?:any):void{
+  public static trigger(type:string, ...args:any[]):void{
     for(const action of (JJorm.ACTION_RECEIVER_POLYTABLE[type] || [])){
-      action(data);
+      action(...args);
     }
   }
 
   protected readonly abstract ACTION_RECEIVER_TABLE:ActionReceiverTable;
-  protected readonly $:S;
 
   componentWillMount():void{
     for(const k in this.ACTION_RECEIVER_TABLE){

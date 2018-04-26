@@ -1,0 +1,73 @@
+@import "../const.scss";
+
+$c-toast-border: #CCC;
+$c-icon-table: (
+  info-circle: #46F,
+  check-circle: #1B1,
+  exclamation-triangle: #FB3,
+  exclamation-circle: #F44
+);
+
+$b-toast: #EEE;
+
+.toast-list{
+  display: flex;
+  flex-direction: column;
+  padding: $pad-normal;
+  margin-top: $px-header-height;
+}
+.toast{
+  display: flex;
+  padding: $pad-normal;
+  border: 2px solid $c-toast-border;
+  margin: $pad-small auto;
+  background: $b-toast;
+  pointer-events: all;
+  animation: ToastAppearance $anim-normal ease;
+  &.toast-disappear{
+    transition: margin-bottom $anim-normal ease;
+    animation-name: ToastDisappearance;
+  }
+  >.icon{
+    align-self: center;
+    margin-right: $pad-normal;
+    font-size: $fs-big;
+    @each $k, $v in $c-icon-table{
+      &.fa-#{$k}{
+        color: $v;
+      }
+    }
+  }
+  >.content{
+    align-self: center;
+  }
+  >button{
+    margin-left: $pad-normal;
+    color: $c-negative;
+    cursor: pointer;
+    &:hover{
+      color: lighten($c-negative, 20%);
+    }
+  }
+}
+
+@keyframes ToastAppearance{
+  from{
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  to{
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+@keyframes ToastDisappearance{
+  from{
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  to{
+    transform: scaleY(0);
+    opacity: 0;
+  }
+}

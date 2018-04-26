@@ -1,1 +1,51 @@
-$fs-normal: 11pt;
+// 색상
+$c-header-border: #DDD;
+$c-submenu-border: #DDD;
+$c-positive: #AFA;
+$c-negative: #F44;
+
+// 배경 색상
+$b-header: #EEE;
+$b-submenu-span: #EEE;
+$b-footer: #EEE;
+$b-prop: #EEE;
+
+// 그림자
+$shadow-normal: 0 1px 2px black;
+
+// 글자 크기
+$fs-small: 9pt;
+$fs-normal: 10pt;
+$fs-big: 11pt;
+$fs-bigger: 20pt;
+$fs-biggest: 36pt;
+
+// 기타 크기
+$px-header-height: 50px;
+
+// 여백
+$pad-small: 2px;
+$pad-normal: 4px;
+$pad-big: 6px;
+$pad-bigger: 10px;
+
+// 빠르기
+$anim-normal: 300ms;
+
+// 애니메이션
+@keyframes OpacityEnter{
+  from{
+    opacity: 0;
+  }
+  to{
+    opacity: 1;
+  }
+}
+
+// 편의
+@mixin anim-hover(){
+  transition: background-color 300ms ease;
+  &:hover{
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+}

@@ -1,0 +1,103 @@
+@import "../@global/global.scss";
+
+$c-chat-border: #CCC;
+$c-talk-border: #DDD;
+$c-timestamp: #777;
+
+$b-chat: #EEE;
+$b-chat-mine: #DEF;
+$b-talk-options: #EEE;
+
+$px-chat-indent: 2em;
+$px-button-min-width: 120px;
+
+article{
+  >main{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+}
+.chat-board{
+  height: 100%;
+  overflow-y: scroll;
+}
+.chat{
+  display: grid;
+  grid-gap: $pad-normal;
+  padding: $pad-normal;
+  margin: $pad-normal;
+  >.chat-author{
+    display: flex;
+    align-items: center;
+    >img{
+      width: 2em;
+      height: 2em;
+      margin-right: $pad-normal;
+    }
+  }
+  >.body{
+    margin-left: $px-chat-indent;
+    margin-right: auto;
+    >.chat-content{
+      display: inline-block;
+      padding: $pad-normal;
+      border: 1px solid $c-chat-border;
+      border-radius: 5px;
+      background: $b-chat;
+    }
+    >.chat-timestamp{
+      padding: 0 $pad-normal;
+      margin-top: $pad-small;
+      font-size: $fs-small;
+      color: $c-timestamp;
+    }
+  }
+  &.chat-preamble{
+    padding-bottom: 0;
+    margin-bottom: 0;
+    .chat-timestamp{
+      display: none;
+    }
+  }
+  &.chat-tiny{
+    margin-top: 0;
+    .chat-author{
+      display: none;
+    }
+  }
+  &.chat-mine{
+    >.body{
+      margin-left: auto;
+      margin-right: initial;
+      text-align: right;
+      >.chat-content{
+        background: $b-chat-mine;
+      }
+    }
+  }
+}
+.talk{
+  padding: $pad-normal;
+  border-top: 1px dashed $c-talk-border;
+  margin-top: auto;
+  >span{
+    display: block;
+    padding-bottom: $pad-small;
+    font-size: $fs-small;
+  }
+  >.talk-options{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax($px-button-min-width, 1fr));
+    grid-gap: $pad-normal;
+    >button{
+      padding: $pad-normal;
+      border: 1px solid $c-talk-border;
+      cursor: pointer;
+      background: $b-talk-options;
+      &:hover{
+        background: lighten($b-talk-options, 5%);
+      }
+    }
+  }
+}
