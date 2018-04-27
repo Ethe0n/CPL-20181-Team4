@@ -6,21 +6,26 @@ import cdp2.mindle.manager.InformationManager;
 import cdp2.mindle.manager.ScriptManager;
 
 public class CoreManager {
-	AnalysisManager 	analysisManager;
-	FileManager 		fileManager;
-	InformationManager 	informationManager;
-	ScriptManager 		scriptManager;
-	CoreInformation 	coreInformation;
+	AnalysisManager analysisManager;
+	FileManager fileManager;
+	InformationManager informationManager;
+	ScriptManager scriptManager;
+	private static CoreManager instance;
 	
 	public CoreManager()
 	{
-		coreInformation = new CoreInformation();
 		analysisManager = new AnalysisManager();
 		fileManager = new FileManager();
 		informationManager = new InformationManager();
 		scriptManager = new ScriptManager();
 	}
 
+	public static CoreManager getInstance() {
+		if ( instance == null )
+			instance = new CoreManager();
+		return instance;
+	}
+	
 	public String toBinary()
 	{
 		return  informationManager.toBinary()

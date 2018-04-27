@@ -19,7 +19,9 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
+
+import cdp2.mindle.core.CoreInformation;
+import cdp2.mindle.data.ExtensionInformation;
 
 public class InformationPanel extends JPanel {
 	private JTextField nameInputField;
@@ -32,24 +34,24 @@ public class InformationPanel extends JPanel {
 	public InformationPanel() {
 		setBackground(new Color(250, 235, 215));
 		setForeground(UIManager.getColor("Button.light"));
-
+		
 		JLabel nameLabel = new JLabel("\uC774\uB984");
-		nameLabel.setFont(new Font("±¼¸²", Font.BOLD, 15));
+		nameLabel.setFont(new Font("êµ´ë¦¼", Font.BOLD, 15));
 
 		JLabel codeLabel = new JLabel("\uC2DD\uBCC4 \uCF54\uB4DC");
-		codeLabel.setFont(new Font("±¼¸²", Font.BOLD, 15));
+		codeLabel.setFont(new Font("êµ´ë¦¼", Font.BOLD, 15));
 
 		JLabel targetLabel = new JLabel("\uB300\uC0C1");
-		targetLabel.setFont(new Font("±¼¸²", Font.BOLD, 15));
+		targetLabel.setFont(new Font("êµ´ë¦¼", Font.BOLD, 15));
 
 		JLabel duplicateLabel = new JLabel("(\uC911\uBCF5 \uAC00\uB2A5)");
-		duplicateLabel.setFont(new Font("±¼¸²", Font.BOLD, 15));
+		duplicateLabel.setFont(new Font("êµ´ë¦¼", Font.BOLD, 15));
 
 		JLabel languageLabel = new JLabel("\uC5B8\uC5B4");
-		languageLabel.setFont(new Font("±¼¸²", Font.BOLD, 15));
+		languageLabel.setFont(new Font("êµ´ë¦¼", Font.BOLD, 15));
 
 		JLabel extensionLabel = new JLabel("\uCD94\uAC00\uC815\uBCF4");
-		extensionLabel.setFont(new Font("±¼¸²", Font.BOLD, 15));
+		extensionLabel.setFont(new Font("êµ´ë¦¼", Font.BOLD, 15));
 
 		nameInputField = new JTextField();
 		nameInputField.setColumns(10);
@@ -59,43 +61,73 @@ public class InformationPanel extends JPanel {
 
 		JCheckBox maleCheckbox = new JCheckBox("\uB0A8\uC131");
 		maleCheckbox.setBackground(new Color(250, 235, 215));
-		maleCheckbox.setFont(new Font("±¼¸²", Font.PLAIN, 15));
+		maleCheckbox.setFont(new Font("êµ´ë¦¼", Font.PLAIN, 15));
 
 		JCheckBox femaleCheckbox = new JCheckBox("\uC5EC\uC131");
 		femaleCheckbox.setBackground(new Color(250, 235, 215));
-		femaleCheckbox.setFont(new Font("±¼¸²", Font.PLAIN, 15));
+		femaleCheckbox.setFont(new Font("êµ´ë¦¼", Font.PLAIN, 15));
 
 		JCheckBox oldCheckbox = new JCheckBox("\uB178\uC778");
 		oldCheckbox.setBackground(new Color(250, 235, 215));
-		oldCheckbox.setFont(new Font("±¼¸²", Font.PLAIN, 15));
+		oldCheckbox.setFont(new Font("êµ´ë¦¼", Font.PLAIN, 15));
 
 		JCheckBox adultCheckbox = new JCheckBox("\uC131\uC778");
 		adultCheckbox.setBackground(new Color(250, 235, 215));
-		adultCheckbox.setFont(new Font("±¼¸²", Font.PLAIN, 15));
+		adultCheckbox.setFont(new Font("êµ´ë¦¼", Font.PLAIN, 15));
 
 		JCheckBox teenCheckbox = new JCheckBox("\uCCAD\uC18C\uB144");
 		teenCheckbox.setBackground(new Color(250, 235, 215));
-		teenCheckbox.setFont(new Font("±¼¸²", Font.PLAIN, 15));
+		teenCheckbox.setFont(new Font("êµ´ë¦¼", Font.PLAIN, 15));
 
 		JCheckBox childCheckbox = new JCheckBox("\uC544\uB3D9");
 		childCheckbox.setBackground(new Color(250, 235, 215));
-		childCheckbox.setFont(new Font("±¼¸²", Font.PLAIN, 15));
+		childCheckbox.setFont(new Font("êµ´ë¦¼", Font.PLAIN, 15));
 
 		JComboBox languageSelectCombobox = new JComboBox();
-		languageSelectCombobox.setModel(new DefaultComboBoxModel(new String[] { "Korean", "Japanese", "Chinese" }));
+		languageSelectCombobox.setModel(new DefaultComboBoxModel(CoreInformation.languageList.keySet().toArray()));
 
 		JScrollPane scrollPane = new JScrollPane();
 
+		final ExtensionTableModel tableModel = new ExtensionTableModel();
+		extensionTable = new JTable();
+		extensionTable.setBackground(Color.WHITE);
+		extensionTable.setBorder(new LineBorder(new Color(0, 0, 0)));
+		extensionTable.setFont(new Font("êµ´ë¦¼", Font.PLAIN, 15));
+		extensionTable.setModel(tableModel);
+		extensionTable.getColumnModel().getColumn(0).setPreferredWidth(39);
+		extensionTable.getColumnModel().getColumn(0).setMinWidth(10);
+		extensionTable.getColumnModel().getColumn(0).setMaxWidth(39);
+		extensionTable.getColumnModel().getColumn(3).setPreferredWidth(42);
+		extensionTable.getColumnModel().getColumn(3).setMaxWidth(42);
+		
+		// ì¶”ê°€ ë²„íŠ¼
 		JButton addButton = new JButton("+");
 		addButton.setBackground(Color.WHITE);
-		addButton.setFont(new Font("±¼¸²", Font.PLAIN, 10));
-
+		addButton.setFont(new Font("êµ´ë¦¼", Font.PLAIN, 10));
+		addButton.addActionListener(new ActionListener() {
+			@Override
+            public void actionPerformed(ActionEvent e) {
+                ExtensionInformation exInfo = new ExtensionInformation();
+                tableModel.addRow(exInfo);
+            }
+		});
+		
+		// ì‚­ì œ ë²„íŠ¼
 		JButton deleteButton = new JButton("-");
+		deleteButton.setBackground(Color.WHITE);
 		deleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		deleteButton.setFont(new Font("±¼¸²", Font.PLAIN, 10));
+		deleteButton.setFont(new Font("êµ´ë¦¼", Font.PLAIN, 10));
+		deleteButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tableModel.deleteRow();
+            }
+        });
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
@@ -164,23 +196,7 @@ public class InformationPanel extends JPanel {
 				.addPreferredGap(ComponentPlacement.UNRELATED)
 				.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE).addGap(33)));
 
-		extensionTable = new JTable();
-		extensionTable.setBackground(Color.WHITE);
-		extensionTable.setBorder(new LineBorder(new Color(0, 0, 0)));
-		extensionTable.setFont(new Font("±¼¸²", Font.PLAIN, 15));
-		extensionTable.setModel(new DefaultTableModel(
-				new Object[][] { { null, null, null, null }, { null, null, null, null }, { null, null, null, null }, },
-				new String[] { "No.", "\uD0C0\uC785", "\uC815\uBCF4", "\uC120\uD0DD" }) {
-			Class[] columnTypes = new Class[] { Integer.class, String.class, String.class, Boolean.class };
-
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
-		extensionTable.getColumnModel().getColumn(0).setPreferredWidth(39);
-		extensionTable.getColumnModel().getColumn(0).setMinWidth(10);
-		extensionTable.getColumnModel().getColumn(0).setMaxWidth(39);
-		extensionTable.getColumnModel().getColumn(3).setMaxWidth(42);
+		
 		scrollPane.setViewportView(extensionTable);
 		setLayout(groupLayout);
 
