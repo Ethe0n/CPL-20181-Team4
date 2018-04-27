@@ -10,4 +10,9 @@ public class AnalysisPanel extends JPanel
 	{
 		setBackground(Color.RED);
 	}
+	
+	public void tempFunction()
+	{
+		
+	}
 }
