@@ -38,15 +38,15 @@ public class CoreManager {
 		// cut -> parse(1. info, 2. scr, 3. analy)
 	}
 	
-	public void load(String directory, String fileName)
+	public void load(String path)
 	{
-		fileManager.loadFile(directory, fileName);	
+		fileManager.loadFile(path);	
 		parse(fileManager.getBinary());
 	}
 	
-	public void save(String directory, String fileName)
+	public void save(String path)
 	{
 		fileManager.setBinary(toBinary());
-		fileManager.saveFile(directory, fileName);
+		fileManager.saveFile(path);
 	}
 }

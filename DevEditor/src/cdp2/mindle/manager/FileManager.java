@@ -8,12 +8,12 @@ public class FileManager {
 		binary = "";
 	}
 	
-	public void loadFile(String directory, String fileName)
+	public void loadFile(String path)
 	{
 		
 	}
 	
-	public void saveFile(String directory, String fileName)
+	public void saveFile(String path)
 	{
 		
 	}
