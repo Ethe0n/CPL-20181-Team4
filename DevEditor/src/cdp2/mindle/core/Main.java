@@ -11,7 +11,6 @@ public class Main {
 	{
 		MainFrame frame = new MainFrame("Mindle Script Editor");
 		
-		frame.setLayout(new GridLayout(3, 1));
 		frame.setSize(1000, 1000);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

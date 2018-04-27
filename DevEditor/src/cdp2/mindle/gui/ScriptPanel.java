@@ -8,7 +8,6 @@ public class ScriptPanel extends JPanel
 {
 	public ScriptPanel()
 	{
-		setSize(300, 300);
 		setBackground(Color.YELLOW);
 	}
 }

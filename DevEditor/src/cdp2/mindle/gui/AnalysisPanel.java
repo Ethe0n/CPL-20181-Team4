@@ -8,7 +8,6 @@ public class AnalysisPanel extends JPanel
 {
 	public AnalysisPanel()
 	{
-		setSize(300, 300);
 		setBackground(Color.RED);
 	}
 }
