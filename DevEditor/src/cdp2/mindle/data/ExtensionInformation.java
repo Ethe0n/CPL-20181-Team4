@@ -29,4 +29,14 @@ public class ExtensionInformation {
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}
+	
+	public String toString()
+	{
+		String result = "";
+		
+		result += "키 : " + key + ", "
+				+ "값 : " + value;
+		
+		return result;
+	}
 }

@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import cdp2.mindle.core.CoreInformation;
 import cdp2.mindle.core.CoreManager;
 
 public class MainFrame extends JFrame implements ActionListener
@@ -32,11 +33,10 @@ public class MainFrame extends JFrame implements ActionListener
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 		}
 		catch (Exception e) {
-			
 		}
 		
 		fileChooser = new JFileChooser();
-		fileChooser.setFileFilter(new FileNameExtensionFilter("txt", "txt"));
+		fileChooser.setFileFilter(new FileNameExtensionFilter(CoreInformation.fileNameExtension, CoreInformation.fileNameExtension));
 		fileChooser.setMultiSelectionEnabled(false);
 
 		JPanel mainPanel = new JPanel();
@@ -70,12 +70,9 @@ public class MainFrame extends JFrame implements ActionListener
 		layout.setVerticalGroup(
 				   layout.createSequentialGroup()
 				   .addComponent(menuBar)   
-				   .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-						   .addComponent(informationPanel))
-				   .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-						   .addComponent(scriptPanel))
-				   .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-						   .addComponent(analysisPanel))
+				   .addComponent(informationPanel)
+				   .addComponent(scriptPanel)
+				   .addComponent(analysisPanel)
 				);
 		
 		JScrollPane scrollPane = new JScrollPane(

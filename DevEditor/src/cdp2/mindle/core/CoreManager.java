@@ -1,5 +1,8 @@
 package cdp2.mindle.core;
 
+import java.util.List;
+
+import cdp2.mindle.data.ExtensionInformation;
 import cdp2.mindle.manager.AnalysisManager;
 import cdp2.mindle.manager.FileManager;
 import cdp2.mindle.manager.InformationManager;
@@ -46,7 +49,36 @@ public class CoreManager {
 	
 	public void save(String path)
 	{
+		System.out.println(informationManager.toString());
 		fileManager.setBinary(toBinary());
 		fileManager.saveFile(path);
+	}
+	
+	public void setInformationName(String name) {
+		informationManager.setName(name);
+	}
+	
+	public void setInformationCode(String code) {
+		informationManager.setCode(code);
+	}
+	
+	public void setInformationTarget(String type, boolean isTrue) {
+		try {
+			informationManager.setTarget(type, isTrue);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void setInformationLanguage(String language) {
+		try {
+			informationManager.setLanguage(language);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void setInformationExtension(List<ExtensionInformation> extension) {
+		informationManager.setExtension(extension);
 	}
 }

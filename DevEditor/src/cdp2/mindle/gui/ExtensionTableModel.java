@@ -3,6 +3,8 @@ package cdp2.mindle.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 
 import cdp2.mindle.data.ExtensionInformation;
@@ -39,13 +41,11 @@ public class ExtensionTableModel extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		// TODO Auto-generated method stub
 		return data.size();
 	}
 
 	@Override
 	public int getColumnCount() {
-		// TODO Auto-generated method stub
 		return columnNames.size();
 	}
 
@@ -101,7 +101,11 @@ public class ExtensionTableModel extends AbstractTableModel {
 			break;
 		}
 	}
-
+	
+	public List<ExtensionInformation> getData() {
+		return data;
+	}
+	
 	private ArrayList<String> createColumnNames() {
 		ArrayList<String> names = new ArrayList<String>();
 
