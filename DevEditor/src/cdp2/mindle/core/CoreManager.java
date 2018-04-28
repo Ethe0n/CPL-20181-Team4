@@ -1,5 +1,6 @@
 package cdp2.mindle.core;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import cdp2.mindle.data.ExtensionInformation;
@@ -30,11 +31,9 @@ public class CoreManager {
 		return instance;
 	}
 	
-	public String toBinary()
+	public byte[] toBinary()
 	{
-		return  informationManager.toBinary()
-				+ scriptManager.toBinary()
-				+ analysisManager.toBinary();	 
+		return null; 
 	}
 	
 	public void parse(String binary)
@@ -42,31 +41,32 @@ public class CoreManager {
 		// cut -> parse(1. info, 2. scr, 3. analy)
 	}
 	
-	public void load(String path)
-	{
+	public void load(String path) {
 		try {
-			SmartBuffer test = new SmartBuffer(fileManager.loadFile(path));
-			System.out.println(test.readString(120));
+			byte[] data = fileManager.loadFile(path);
+			System.out.println("data size : " + data.length + "b");
+
+			SmartBuffer test = new SmartBuffer(data);
+			System.out.println(test.readString(data.length * 8));
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
 	}
-	
-	public void save(String path)
-	{
-		byte[] test = new byte[] {
-				(byte)0xeb, (byte)0xa1, (byte)0xa4, (byte)0xed,
-				(byte)0x95, (byte)0x98, (byte)0xea, (byte)0xb3,
-				(byte)0xa0, (byte)0xec, (byte)0x8b, (byte)0xb6,
-				(byte)0xeb, (byte)0x8b, (byte)0xa4	
-		};
+
+	public void save(String path) {
 		try {
-			fileManager.saveFile(path, test);
+			ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+			stream.write(CoreInformation.toBinary());
+			stream.write(informationManager.toBinary());
+			fileManager.saveFile(path, stream.toByteArray());
+
+			stream.close();
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
 	}
-	
+
 	public void setInformationName(String name) {
 		informationManager.setName(name);
 	}

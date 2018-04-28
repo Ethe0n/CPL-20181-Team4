@@ -3,8 +3,10 @@ package cdp2.mindle.core;
 import java.util.HashMap;
 import java.util.Map;
 
+import cdp2.mindle.manager.SmartBuffer;
+
 public class CoreInformation {
-	public final static String version = "1.1.0";
+	public final static String version = "1.00.0";
 	public final static String signature = "mindle";
 	public final static String fileNameExtension = "mindle";
 	public final static String[] targetList = new String[] {
@@ -20,4 +22,11 @@ public class CoreInformation {
 
 	public final static int nameLimitBytes = 1000;
 	public final static int codeLimitBytes = 1000;
+	
+	public static byte[] toBinary()
+	{
+		String str = signature.toUpperCase() + version.replace(".", "");
+		
+		return str.getBytes();
+	}
 }

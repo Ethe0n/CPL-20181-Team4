@@ -103,7 +103,6 @@ public class SmartBuffer {
 		return sb.toString();
 	}
 	
-	@SuppressWarnings("unused")
 	private byte[] binaryStringToByteArray(String s) {
 		int count = s.length() / 8;
 		byte[] b = new byte[count];

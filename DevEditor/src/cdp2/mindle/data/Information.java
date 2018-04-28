@@ -1,10 +1,13 @@
 package cdp2.mindle.data;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import cdp2.mindle.core.CoreInformation;
+import cdp2.mindle.manager.SmartBuffer;
 
 public class Information {
 	String name;
@@ -25,8 +28,22 @@ public class Information {
 		extension = new ArrayList<ExtensionInformation>();
 	}
 
-	public String toBinary() {
-		return "";
+	public byte[] toBinary() throws IOException {
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		
+		stream.write(code.getBytes());
+		stream.write(CoreInformation.languageList.get(language).getBytes());
+		stream.write(getTargetByte());
+		stream.write(name.getBytes());
+		stream.write(extension.size());
+		
+		byte[] bytes = stream.toByteArray();
+		stream.close();
+		
+		SmartBuffer test = new SmartBuffer(bytes);
+		System.out.println(test.readString(bytes.length * 8));
+		
+		return bytes;
 	}
 
 	public void parse(String binary) {
@@ -87,6 +104,20 @@ public class Information {
 			result += iter + " : " + target.get(iter) + "\n";
 		}
 		result += extension.toString();
+		
+		return result;
+	}
+	
+	private byte getTargetByte() {
+		byte result = 0;
+		String[] t = CoreInformation.targetList;
+		byte flag[] = new byte[] {
+				(byte)0x80, (byte)0x40, 8, 4, 2, 1
+		};
+		
+		for (int i = 0; i < flag.length; ++i) {
+			result += target.get(t[i]) ? flag[i] : 0;
+		}
 		
 		return result;
 	}

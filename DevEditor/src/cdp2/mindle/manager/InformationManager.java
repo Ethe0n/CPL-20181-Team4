@@ -1,5 +1,6 @@
 package cdp2.mindle.manager;
 
+import java.io.IOException;
 import java.util.List;
 
 import cdp2.mindle.data.ExtensionInformation;
@@ -13,9 +14,9 @@ public class InformationManager {
 		information = new Information();
 	}
 	
-	public String toBinary()
+	public byte[] toBinary() throws IOException
 	{
-		return "";
+		return information.toBinary();
 	}
 	
 	public void parse(String binary)
