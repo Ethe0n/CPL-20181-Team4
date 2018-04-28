@@ -50,6 +50,7 @@ public class InformationPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public InformationPanel() {
+		setBorder(new LineBorder(Color.GRAY));
 
 		setBackground(new Color(250, 235, 215));
 		setForeground(UIManager.getColor("Button.light"));
@@ -173,7 +174,7 @@ public class InformationPanel extends JPanel {
 		final ExtensionTableModel tableModel = new ExtensionTableModel();
 		extensionTable = new JTable();
 		extensionTable.setBackground(Color.WHITE);
-		extensionTable.setBorder(new LineBorder(new Color(0, 0, 0)));
+		extensionTable.setBorder(new LineBorder(Color.GRAY));
 		extensionTable.setFont(new Font("굴림", Font.PLAIN, 12));
 		extensionTable.setModel(tableModel);
 		extensionTable.getColumnModel().getColumn(0).setPreferredWidth(39);
@@ -259,72 +260,83 @@ public class InformationPanel extends JPanel {
 		});
 
 		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-						.addGroup(
-								groupLayout.createParallelGroup(Alignment.LEADING)
-										.addGroup(groupLayout.createSequentialGroup().addContainerGap()
-												.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-														.addComponent(duplicateLabel).addComponent(extensionLabel)
-														.addComponent(codeLabel)))
-										.addGroup(groupLayout.createSequentialGroup().addContainerGap()
-												.addComponent(nameLabel))
-										.addGroup(groupLayout
-												.createSequentialGroup().addContainerGap().addComponent(targetLabel))
-										.addGroup(groupLayout
-												.createSequentialGroup().addContainerGap().addComponent(languageLabel)))
-						.addGap(26)
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-								.createSequentialGroup()
-								.addComponent(addButton, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED).addComponent(deleteButton)
-								.addContainerGap()).addGroup(groupLayout.createSequentialGroup()
-										.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
-										.addContainerGap())
-								.addGroup(groupLayout
-										.createSequentialGroup()
-										.addGroup(groupLayout
-												.createParallelGroup(Alignment.LEADING)
-												.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-														.addComponent(codeInputField).addComponent(nameInputField,
-																GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE))
-												.addGroup(groupLayout.createSequentialGroup().addComponent(maleCheckbox)
-														.addGap(18).addComponent(femaleCheckbox))
-												.addGroup(groupLayout.createSequentialGroup().addComponent(oldCheckbox)
-														.addGap(18).addComponent(adultCheckbox).addGap(18)
-														.addComponent(teenCheckbox).addGap(18)
-														.addComponent(childCheckbox))
-												.addComponent(languageSelectCombobox, GroupLayout.PREFERRED_SIZE,
-														GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-										.addGap(19)))));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-				.createSequentialGroup().addContainerGap()
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(nameInputField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addComponent(nameLabel))
-				.addPreferredGap(ComponentPlacement.UNRELATED)
-				.addGroup(groupLayout
-						.createParallelGroup(Alignment.BASELINE).addComponent(codeLabel).addComponent(codeInputField,
-								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addPreferredGap(ComponentPlacement.UNRELATED)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(maleCheckbox)
-						.addComponent(femaleCheckbox).addComponent(targetLabel))
-				.addPreferredGap(ComponentPlacement.UNRELATED)
-				.addGroup(groupLayout
-						.createParallelGroup(Alignment.BASELINE).addComponent(duplicateLabel).addComponent(oldCheckbox)
-						.addComponent(adultCheckbox).addComponent(teenCheckbox).addComponent(childCheckbox))
-				.addPreferredGap(ComponentPlacement.UNRELATED)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(languageSelectCombobox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
+					.addContainerGap()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(duplicateLabel)
+						.addComponent(extensionLabel)
+						.addComponent(codeLabel)
+						.addComponent(nameLabel)
+						.addComponent(targetLabel)
 						.addComponent(languageLabel))
-				.addPreferredGap(ComponentPlacement.UNRELATED)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(extensionLabel)
+					.addGap(26)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(addButton, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(deleteButton)
+							.addContainerGap())
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+							.addContainerGap())
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+									.addComponent(codeInputField)
+									.addComponent(nameInputField, GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(maleCheckbox)
+									.addGap(18)
+									.addComponent(femaleCheckbox))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(oldCheckbox)
+									.addGap(18)
+									.addComponent(adultCheckbox)
+									.addGap(18)
+									.addComponent(teenCheckbox)
+									.addGap(18)
+									.addComponent(childCheckbox))
+								.addComponent(languageSelectCombobox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(19))))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(nameInputField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(nameLabel))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(codeLabel)
+						.addComponent(codeInputField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(maleCheckbox)
+						.addComponent(femaleCheckbox)
+						.addComponent(targetLabel))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(duplicateLabel)
+						.addComponent(oldCheckbox)
+						.addComponent(adultCheckbox)
+						.addComponent(teenCheckbox)
+						.addComponent(childCheckbox))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(languageSelectCombobox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(languageLabel))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(extensionLabel)
 						.addComponent(addButton, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
 						.addComponent(deleteButton, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
-				.addPreferredGap(ComponentPlacement.UNRELATED)
-				.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE).addGap(33)));
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
+					.addGap(33))
+		);
 
 		scrollPane.setViewportView(extensionTable);
 		setLayout(groupLayout);

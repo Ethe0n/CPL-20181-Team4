@@ -40,7 +40,6 @@ public class MainFrame extends JFrame implements ActionListener
 		fileChooser.setMultiSelectionEnabled(false);
 
 		JPanel mainPanel = new JPanel();
-		mainPanel.setSize(1000, 1000);
 		GroupLayout layout = new GroupLayout(mainPanel);
 		mainPanel.setLayout(layout);
 		
@@ -78,7 +77,7 @@ public class MainFrame extends JFrame implements ActionListener
 		JScrollPane scrollPane = new JScrollPane(
 				mainPanel, 
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
 				);
 		
 		add(scrollPane);
