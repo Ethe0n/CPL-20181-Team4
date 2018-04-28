@@ -6,7 +6,7 @@ import java.util.Map;
 public class CoreInformation {
 	public final static String version = "1.1.0";
 	public final static String signature = "mindle";
-	public final static String fileNameExtension = ".mindle";
+	public final static String fileNameExtension = "mindle";
 	public final static String[] targetList = new String[] {
 			"남성", "여성", "노인", "성인", "청소년", "아동"
 	};

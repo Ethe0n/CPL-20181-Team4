@@ -1,28 +1,39 @@
 package cdp2.mindle.manager;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 public class FileManager {
-	String binary;
+	byte[] binary;
 
 	public FileManager()
 	{
-		binary = "";
-	}
-	
-	public void loadFile(String path)
-	{
 		
 	}
 	
-	public void saveFile(String path)
+	public byte[] loadFile(String path) throws Exception
 	{
+		InputStream in = new FileInputStream(path);
+		binary = in.readAllBytes();
+		in.close();
 		
+		return binary;
 	}
 	
-	public String getBinary() {
+	public void saveFile(String path, byte[] bytes) throws Exception 
+	{
+		OutputStream out = new FileOutputStream(path);
+		out.write(bytes);
+		out.close();
+	}
+	
+	public byte[] getBinary() {
 		return binary;
 	}
 
-	public void setBinary(String binary) {
+	public void setBinary(byte[] binary) {
 		this.binary = binary;
 	}
 }

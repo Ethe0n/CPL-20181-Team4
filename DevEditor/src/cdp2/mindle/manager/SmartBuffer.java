@@ -14,7 +14,6 @@ public class SmartBuffer {
 		bitOffset = 0;
 		
 		bits = byteArrayToBinaryString(buffer);
-		System.out.println(bits);
 	}
 
 	public int getBitOffset() {
@@ -81,6 +80,7 @@ public class SmartBuffer {
 		return new String(bytes, UTF8_CHARSET);
 	}
 
+	@SuppressWarnings("unused")
 	private byte[] encodeUTF8(String string) {
 		return string.getBytes(UTF8_CHARSET);
 	}

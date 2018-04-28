@@ -7,6 +7,7 @@ import cdp2.mindle.manager.AnalysisManager;
 import cdp2.mindle.manager.FileManager;
 import cdp2.mindle.manager.InformationManager;
 import cdp2.mindle.manager.ScriptManager;
+import cdp2.mindle.manager.SmartBuffer;
 
 public class CoreManager {
 	AnalysisManager analysisManager;
@@ -43,15 +44,27 @@ public class CoreManager {
 	
 	public void load(String path)
 	{
-		fileManager.loadFile(path);	
-		parse(fileManager.getBinary());
+		try {
+			SmartBuffer test = new SmartBuffer(fileManager.loadFile(path));
+			System.out.println(test.readString(120));
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 	}
 	
 	public void save(String path)
 	{
-		System.out.println(informationManager.toString());
-		fileManager.setBinary(toBinary());
-		fileManager.saveFile(path);
+		byte[] test = new byte[] {
+				(byte)0xeb, (byte)0xa1, (byte)0xa4, (byte)0xed,
+				(byte)0x95, (byte)0x98, (byte)0xea, (byte)0xb3,
+				(byte)0xa0, (byte)0xec, (byte)0x8b, (byte)0xb6,
+				(byte)0xeb, (byte)0x8b, (byte)0xa4	
+		};
+		try {
+			fileManager.saveFile(path, test);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 	}
 	
 	public void setInformationName(String name) {
