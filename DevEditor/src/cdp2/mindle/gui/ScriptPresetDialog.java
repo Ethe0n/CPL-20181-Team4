@@ -137,8 +137,8 @@ public class ScriptPresetDialog extends JDialog {
 		table.getColumnModel().getColumn(2).setMaxWidth(50);
 		table.getColumnModel().getColumn(3).setPreferredWidth(50);
 		table.getColumnModel().getColumn(3).setMaxWidth(50);
-		table.getColumn("항목").setCellRenderer(new ScriptButtonRenderer());
-        table.getColumn("항목").setCellEditor(new ScriptButtonEditor(new JCheckBox()));
+		table.getColumn("항목").setCellRenderer(new ScriptPresetButtonRenderer());
+        table.getColumn("항목").setCellEditor(new ScriptPresetButtonEditor(new JCheckBox()));
 		table.setFont(new Font("Gulim", Font.PLAIN, 15));
 		
 		
@@ -151,9 +151,9 @@ public class ScriptPresetDialog extends JDialog {
 
 }
 
-class ScriptButtonRenderer extends JButton implements TableCellRenderer {
+class ScriptPresetButtonRenderer extends JButton implements TableCellRenderer {
 
-    public ScriptButtonRenderer() {
+    public ScriptPresetButtonRenderer() {
         setOpaque(true);
     }
 
@@ -172,13 +172,13 @@ class ScriptButtonRenderer extends JButton implements TableCellRenderer {
     }
 }
 
-class ScriptButtonEditor extends DefaultCellEditor {
+class ScriptPresetButtonEditor extends DefaultCellEditor {
 
     protected JButton button;
     private String label;
     private boolean isPushed;
 
-    public ScriptButtonEditor(JCheckBox checkBox) {
+    public ScriptPresetButtonEditor(JCheckBox checkBox) {
         super(checkBox);
         button = new JButton();
         button.setOpaque(true);

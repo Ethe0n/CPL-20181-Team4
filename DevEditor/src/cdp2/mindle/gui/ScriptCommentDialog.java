@@ -10,6 +10,9 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
+import cdp2.mindle.core.CoreManager;
+import cdp2.mindle.data.Script;
+
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -37,10 +40,14 @@ public class ScriptCommentDialog extends JDialog{
 		confirmBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String comment = textField.getText();
+				Script script = new Script();
+				script.setCommand("주석");
+				script.appendData(comment);
+				ScriptPanel.addRow(script);
 				
+				dispose();
 			}
-		});;
-		
+		});
 		
 		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());

@@ -1,25 +1,35 @@
 package cdp2.mindle.gui;
 
 import java.awt.Color;
+import java.awt.Component;
 
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
+import javax.swing.DefaultCellEditor;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Font;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+
+import cdp2.mindle.data.Script;
 
 public class ScriptPanel extends JPanel
 {
 	private JTable table_1;
+	final static ScriptTableModel tableModel = new ScriptTableModel();
+	
 	public ScriptPanel()
 	{
 		setBorder(new LineBorder(Color.GRAY));
@@ -102,30 +112,104 @@ public class ScriptPanel extends JPanel
 		);
 		
 		table_1 = new JTable();
-		table_1.setFont(new Font("Gulim", Font.PLAIN, 15));
-		table_1.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null},
-			},
-			new String[] {
-				"No.", "\uBA85\uB839\uC5B4", "\uD130\uC774\uD130", "\uC120\uD0DD"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Object.class, Object.class, Object.class, Boolean.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
+		table_1.setBackground(Color.WHITE);
+		table_1.setBorder(new LineBorder(Color.GRAY));
+		table_1.setFont(new Font("굴림", Font.PLAIN, 12));
+		table_1.setModel(tableModel);
 		table_1.getColumnModel().getColumn(0).setPreferredWidth(40);
 		table_1.getColumnModel().getColumn(0).setMaxWidth(40);
 		table_1.getColumnModel().getColumn(1).setPreferredWidth(60);
 		table_1.getColumnModel().getColumn(1).setMaxWidth(60);
 		table_1.getColumnModel().getColumn(2).setPreferredWidth(297);
 		table_1.getColumnModel().getColumn(3).setPreferredWidth(40);
-		table_1.getColumnModel().getColumn(3).setMaxWidth(40);
+		table_1.getColumnModel().getColumn(3).setMaxWidth(60);
+		table_1.getColumn("삭제").setCellRenderer(new ScriptButtonRenderer());
+        table_1.getColumn("삭제").setCellEditor(new ScriptButtonEditor(new JCheckBox()));
+		
 		scrollPane.setViewportView(table_1);
 		setLayout(groupLayout);
 	}
+	
+	public static void deleteRow(int row) {
+		tableModel.deleteRow(row);
+	}
+	
+	public static void addRow(Script scInfo) {
+		tableModel.addRow(scInfo);
+	}
+}
+
+class ScriptButtonRenderer extends JButton implements TableCellRenderer {
+
+    public ScriptButtonRenderer() {
+        setOpaque(true);
+    }
+
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value,
+            boolean isSelected, boolean hasFocus, int row, int column) {
+        if (isSelected) {
+            setForeground(table.getSelectionForeground());
+            setBackground(table.getSelectionBackground());
+        } else {
+            setForeground(table.getForeground());
+            setBackground(UIManager.getColor("Button.background"));
+        }
+        setText((value == null) ? "x" : value.toString());
+        return this;
+    }
+}
+
+class ScriptButtonEditor extends DefaultCellEditor {
+
+    protected JButton button;
+    private String label;
+    private boolean isPushed;
+    private int row;
+
+    public ScriptButtonEditor(JCheckBox checkBox) {
+        super(checkBox);
+        button = new JButton();
+        button.setOpaque(true);
+        button.setText("x");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                fireEditingStopped();
+            }
+        });
+    }
+
+    @Override
+    public Component getTableCellEditorComponent(JTable table, Object value,
+            boolean isSelected, int row, int column) {
+        if (isSelected) {
+            button.setForeground(table.getSelectionForeground());
+            button.setBackground(table.getSelectionBackground());
+            this.row = row;
+        } else {
+            button.setForeground(table.getForeground());
+            button.setBackground(table.getBackground());
+        }
+        label = (value == null) ? "x" : value.toString();
+        button.setText(label);
+        isPushed = true;
+        return button;
+    }
+
+    @Override
+    public Object getCellEditorValue() {
+        if (isPushed) {
+//            JOptionPane.showMessageDialog(button, label + ": Ouch!");
+        	ScriptPanel.deleteRow(row);
+        }
+        isPushed = false;
+        return label;
+    }
+
+    @Override
+    public boolean stopCellEditing() {
+        isPushed = false;
+        return super.stopCellEditing();
+    }
 }
