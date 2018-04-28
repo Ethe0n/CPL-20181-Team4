@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
@@ -27,12 +28,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import cdp2.mindle.data.ExtensionInformation;
 import cdp2.mindle.data.Script;
+import cdp2.mindle.data.ScriptQuestion;
+import cdp2.mindle.data.ScriptQuestionTable;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 import javax.swing.JTextArea;
 import javax.swing.JCheckBox;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 public class ScriptQuestionDialog extends JDialog{
 	
@@ -48,10 +54,13 @@ public class ScriptQuestionDialog extends JDialog{
 	
 	private int curMethod = 0;
 	
+	final ScriptQuestionTableModel tableModel = new ScriptQuestionTableModel();
+	
 	public ScriptQuestionDialog() {
 		
-		setBounds(100, 100, 450, 394);
-		getContentPane().setLayout(new BorderLayout());
+		setTitle("질문");
+		
+		setBounds(100, 100, 450, 536);
 		
 		JLabel lblId = new JLabel("ID");
 		
@@ -84,35 +93,22 @@ public class ScriptQuestionDialog extends JDialog{
 		JLayeredPane layeredPane = new JLayeredPane();
 		
 		JButton confirmBtn = new JButton("확 인");
-		confirmBtn.setFont(new Font("Gulim", Font.PLAIN, 15));
-		confirmBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String id = input_ID.getText();
-				String data = input_Data.getText();
-				Script script = new Script();
-				script.setCommand("질문");
-				script.appendData(id);
-				script.appendData(data);
-				script.appendData(Integer.toString(curMethod));   // 0 : 직접제공, 1 : 프리셋, 2 : 주관식
-				
-				ScriptPanel.addRow(script);
-				
-				dispose();
-			}
-		});
-		
-		
+		confirmBtn.setFont(new Font("Gulim", Font.PLAIN, 15));	
 		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(184)
+					.addComponent(confirmBtn)
+					.addContainerGap(183, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(layeredPane, GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
 							.addContainerGap())
-						.addGroup(groupLayout.createSequentialGroup()
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblId, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
 								.addComponent(label))
@@ -121,17 +117,13 @@ public class ScriptQuestionDialog extends JDialog{
 								.addComponent(input_Data, GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
 								.addComponent(input_ID, GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE))
 							.addContainerGap())
-						.addGroup(groupLayout.createSequentialGroup()
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 							.addComponent(customOption)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(presetOption, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(subjectiveOption, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
 							.addGap(59))))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(181)
-					.addComponent(confirmBtn)
-					.addContainerGap(186, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -150,15 +142,15 @@ public class ScriptQuestionDialog extends JDialog{
 						.addComponent(subjectiveOption)
 						.addComponent(customOption))
 					.addGap(18)
-					.addComponent(layeredPane, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(layeredPane, GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)
+					.addGap(18)
 					.addComponent(confirmBtn)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		getContentPane().setLayout(groupLayout);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 404, 179);
+		panel.setBounds(0, 0, 404, 308);
 		layeredPane.add(panel);
 		
 		JLabel lblNewLabel = new JLabel("필수 답변 개수");
@@ -177,13 +169,18 @@ public class ScriptQuestionDialog extends JDialog{
 		lblNewLabel_2.setFont(new Font("Gulim", Font.PLAIN, 15));
 		
 		JButton addBtn = new JButton("추가");
+		addBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ScriptQuestionTable scqInfo = new ScriptQuestionTable();
+				tableModel.addRow(scqInfo);
+			}
+		});
 		addBtn.setFont(new Font("Gulim", Font.PLAIN, 15));
 		
 		JScrollPane scrollPane = new JScrollPane();
 		
-		final ScriptQuestionTableModel tableModel = new ScriptQuestionTableModel();
-		
 		table = new JTable();
+		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table.setModel(tableModel);
 		table.getColumnModel().getColumn(0).setPreferredWidth(40);
 		table.getColumnModel().getColumn(0).setMaxWidth(40);
@@ -196,6 +193,11 @@ public class ScriptQuestionDialog extends JDialog{
 		scrollPane.setViewportView(table);
 		
 		JButton deleteBtn = new JButton("삭제");
+		deleteBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tableModel.deleteRow();	
+			}
+		});
 		deleteBtn.setFont(new Font("Gulim", Font.PLAIN, 15));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
@@ -210,9 +212,6 @@ public class ScriptQuestionDialog extends JDialog{
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(deleteBtn))
 						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(14)
-							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 376, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel.createSequentialGroup()
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGap(12)
@@ -223,8 +222,11 @@ public class ScriptQuestionDialog extends JDialog{
 							.addGap(4)
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addComponent(input_MaxAns, GroupLayout.PREFERRED_SIZE, 276, GroupLayout.PREFERRED_SIZE)
-								.addComponent(input_MinAns, GroupLayout.PREFERRED_SIZE, 278, GroupLayout.PREFERRED_SIZE))))
-					.addContainerGap(14, Short.MAX_VALUE))
+								.addComponent(input_MinAns, GroupLayout.PREFERRED_SIZE, 278, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 376, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -246,13 +248,14 @@ public class ScriptQuestionDialog extends JDialog{
 						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 							.addComponent(addBtn)
 							.addComponent(deleteBtn)))
-					.addGap(7)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		panel.setLayout(gl_panel);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(0, 0, 404, 179);
+		panel_1.setBounds(0, 0, 404, 308);
 		layeredPane.add(panel_1);
 		
 		JLabel lblNewLabel_3 = new JLabel("ID");
@@ -316,7 +319,7 @@ public class ScriptQuestionDialog extends JDialog{
 		panel_1.setLayout(gl_panel_1);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(0, 0, 404, 179);
+		panel_2.setBounds(0, 0, 404, 308);
 		layeredPane.add(panel_2);
 		
 		JLabel lblNewLabel_5 = new JLabel("최소 답변 길이");
@@ -391,7 +394,50 @@ public class ScriptQuestionDialog extends JDialog{
 			}
 		});
 		
-		
+		confirmBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String id = input_ID.getText();
+				String data = input_Data.getText();
+				Script script = new Script();
+				script.setCommand("질문");
+				
+				ScriptQuestion scriptQuestion = new ScriptQuestion();
+				scriptQuestion.setCurMethod(curMethod);     // 0 : 직접제공, 1 : 프리셋, 2 : 주관식
+				scriptQuestion.setId(id);
+				scriptQuestion.setQuestion(data);
+				
+				switch(curMethod) {
+				case 0 : 
+					String minAns = input_MinAns.getText();
+					String maxAns = input_MaxAns.getText();
+					scriptQuestion.setMinAns(Integer.parseInt(minAns));
+					scriptQuestion.setMaxAns(Integer.parseInt(maxAns));
+					scriptQuestion.setCustom(tableModel.getData());
+					break;
+				case 1 :
+					String presetId = input_PresetID.getText();
+					boolean checkOver = checkOverride.isSelected();
+					int numAns = Integer.parseInt(input_NumAns.getText());
+					scriptQuestion.setPresetId(presetId);
+					scriptQuestion.setCheckOverride(checkOver);
+					scriptQuestion.setNumAns(numAns);
+					break;
+				case 2:
+					int minLen = Integer.parseInt(input_MinLen.getText());
+					int maxLen = Integer.parseInt(input_MaxLen.getText());
+					scriptQuestion.setMinLen(minLen);
+					scriptQuestion.setMaxLen(maxLen);
+					break;
+				}
+				   
+				script.setObject(scriptQuestion);
+				
+				ScriptPanel.addRow(script);
+				
+				dispose();
+			}
+		});
+				
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setVisible(true);
 	}

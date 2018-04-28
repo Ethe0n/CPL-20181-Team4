@@ -10,6 +10,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
 import cdp2.mindle.data.Script;
+import cdp2.mindle.data.ScriptNotice;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -26,6 +27,8 @@ public class ScriptNoticeDialog extends JDialog{
 	private JTextField input_Notice;
 	
 	public ScriptNoticeDialog() {
+		
+		setTitle("안내문");
 		
 		JLabel lblId = new JLabel("ID");
 		
@@ -46,8 +49,12 @@ public class ScriptNoticeDialog extends JDialog{
 				String notice = input_Notice.getText();
 				Script script = new Script();
 				script.setCommand("안내문");
-				script.appendData(id);
-				script.appendData(notice);
+
+				ScriptNotice scriptNotice = new ScriptNotice();
+				scriptNotice.setId(id);
+				scriptNotice.setNotice(notice);
+				
+				script.setObject(scriptNotice);
 				ScriptPanel.addRow(script);
 				
 				dispose();

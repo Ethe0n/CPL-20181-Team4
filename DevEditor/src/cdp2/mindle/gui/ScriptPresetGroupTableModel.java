@@ -5,17 +5,17 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import cdp2.mindle.data.ExtensionInformation;
-import cdp2.mindle.data.Script;
+import cdp2.mindle.data.ScriptPresetGroupTable;
+import cdp2.mindle.data.ScriptQuestionTable;
 
-public class ScriptTableModel extends AbstractTableModel {
+public class ScriptPresetGroupTableModel extends AbstractTableModel {
 	
-	private List<Script> data;
+	private List<ScriptPresetGroupTable> data;
 	private List<String> columnNames;
 	boolean[] columnEditables = new boolean[] { false, true, true, true };
 
-	public ScriptTableModel() {
-		data = new ArrayList<Script>();
+	public ScriptPresetGroupTableModel() {
+		data = new ArrayList<ScriptPresetGroupTable>();
 		columnNames = createColumnNames();
 	}
 
@@ -29,7 +29,7 @@ public class ScriptTableModel extends AbstractTableModel {
 		case 2:
 			return String.class;
 		default:
-			return Object.class;
+			return Boolean.class;
 		}
 	}
 
@@ -59,21 +59,27 @@ public class ScriptTableModel extends AbstractTableModel {
 		case 0:
 			return rowIndex + 1;
 		case 1:
-			return data.get(rowIndex).getCommand();
+			return data.get(rowIndex).getKeyName();
 		case 2:
-			return data.get(rowIndex).getData();
+			return data.get(rowIndex).getValue();
+		case 3:
+			return data.get(rowIndex).getSelected();
 		default:
 			return null;
 		}
 	}
 
-	public void addRow(Script scInfo) {
-		data.add(scInfo);
+	public void addRow(ScriptPresetGroupTable scpgInfo) {
+		data.add(scpgInfo);
 		fireTableRowsInserted(getRowCount() - 1, getRowCount() - 1);
 	}
 
-	public void deleteRow(int row) {
-		data.remove(row);
+	public void deleteRow() {
+		for (int rowIndex = data.size() - 1; rowIndex >= 0; rowIndex--) {
+			if (data.get(rowIndex).getSelected()) {
+				data.remove(rowIndex);
+			}
+		}
 		fireTableDataChanged();
 	}
 
@@ -81,19 +87,20 @@ public class ScriptTableModel extends AbstractTableModel {
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 		switch (columnIndex) {
 		case 1:
-			data.get(rowIndex).setCommand(aValue != null ? aValue.toString() : null);
+			data.get(rowIndex).setKeyName(aValue != null ? aValue.toString() : null);
 			break;
 		case 2:
-			data.get(rowIndex).setObject(aValue != null ? aValue.toString() : null);
+			data.get(rowIndex).setValue(aValue != null ? aValue.toString() : null);
 			break;
 		case 3:
+			data.get(rowIndex).setSelected((Boolean) aValue);
 			break;
 		default:
 			break;
 		}
 	}
 	
-	public List<Script> getData() {
+	public List<ScriptPresetGroupTable> getData() {
 		return data;
 	}
 	
@@ -101,9 +108,9 @@ public class ScriptTableModel extends AbstractTableModel {
 		ArrayList<String> names = new ArrayList<String>();
 
 		names.add("No.");
-		names.add("명령어");
-		names.add("데이터");
-		names.add("삭제");
+		names.add("항목이름");
+		names.add("변화량");
+		names.add("선택");
 
 		return names;
 	}

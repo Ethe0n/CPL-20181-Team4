@@ -186,13 +186,13 @@ class ScriptButtonEditor extends DefaultCellEditor {
         if (isSelected) {
             button.setForeground(table.getSelectionForeground());
             button.setBackground(table.getSelectionBackground());
-            this.row = row;
         } else {
             button.setForeground(table.getForeground());
             button.setBackground(table.getBackground());
         }
         label = (value == null) ? "x" : value.toString();
         button.setText(label);
+        this.row = row;
         isPushed = true;
         return button;
     }

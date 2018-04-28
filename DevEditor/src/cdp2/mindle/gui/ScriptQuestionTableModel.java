@@ -7,15 +7,16 @@ import javax.swing.table.AbstractTableModel;
 
 import cdp2.mindle.data.Script;
 import cdp2.mindle.data.ScriptQuestion;
+import cdp2.mindle.data.ScriptQuestionTable;
 
 public class ScriptQuestionTableModel extends AbstractTableModel {
 	
-	private List<ScriptQuestion> data;
+	private List<ScriptQuestionTable> data;
 	private List<String> columnNames;
 	boolean[] columnEditables = new boolean[] { false, true, true };
 
 	public ScriptQuestionTableModel() {
-		data = new ArrayList<ScriptQuestion>();
+		data = new ArrayList<ScriptQuestionTable>();
 		columnNames = createColumnNames();
 	}
 
@@ -27,7 +28,7 @@ public class ScriptQuestionTableModel extends AbstractTableModel {
 		case 1:
 			return String.class;
 		default:
-			return boolean.class;
+			return Boolean.class;
 		}
 	}
 
@@ -57,7 +58,7 @@ public class ScriptQuestionTableModel extends AbstractTableModel {
 		case 0:
 			return rowIndex + 1;
 		case 1:
-			return data.get(rowIndex).getQuestion();
+			return data.get(rowIndex).getItem();
 		case 2:
 			return data.get(rowIndex).getSelected();
 		default:
@@ -65,13 +66,17 @@ public class ScriptQuestionTableModel extends AbstractTableModel {
 		}
 	}
 
-	public void addRow(ScriptQuestion scInfo) {
+	public void addRow(ScriptQuestionTable scInfo) {
 		data.add(scInfo);
 		fireTableRowsInserted(getRowCount() - 1, getRowCount() - 1);
 	}
 
-	public void deleteRow(int row) {
-		data.remove(row);
+	public void deleteRow() {
+		for (int rowIndex = data.size() - 1; rowIndex >= 0; rowIndex--) {
+			if (data.get(rowIndex).getSelected()) {
+				data.remove(rowIndex);
+			}
+		}
 		fireTableDataChanged();
 	}
 
@@ -79,7 +84,7 @@ public class ScriptQuestionTableModel extends AbstractTableModel {
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 		switch (columnIndex) {
 		case 1:
-			data.get(rowIndex).setQuestion(aValue != null ? aValue.toString() : null);
+			data.get(rowIndex).setItem(aValue != null ? aValue.toString() : null);
 			break;
 		case 2:
 			data.get(rowIndex).setSelected((Boolean) aValue);
@@ -89,7 +94,7 @@ public class ScriptQuestionTableModel extends AbstractTableModel {
 		}
 	}
 	
-	public List<ScriptQuestion> getData() {
+	public List<ScriptQuestionTable> getData() {
 		return data;
 	}
 	
@@ -97,7 +102,7 @@ public class ScriptQuestionTableModel extends AbstractTableModel {
 		ArrayList<String> names = new ArrayList<String>();
 
 		names.add("No.");
-		names.add("질문");
+		names.add("문항");
 		names.add("선택");
 
 		return names;

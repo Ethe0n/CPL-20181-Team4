@@ -18,14 +18,6 @@ public class ScriptManager
 		script.setCommand(command);
 	}
 	
-	public void appendData(String data) {
-		script.appendData(data);
-	}
-	
-	public void setSelected(boolean selected) {
-		script.setSelected(selected);
-	}
-	
 	public String toBinary()
 	{
 		return "";

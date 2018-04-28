@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 
 import cdp2.mindle.core.CoreManager;
 import cdp2.mindle.data.Script;
+import cdp2.mindle.data.ScriptComment;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -26,7 +27,7 @@ public class ScriptCommentDialog extends JDialog{
 	
 	private JTextField textField;
 	public ScriptCommentDialog() {
-		
+		setTitle("주석");
 		textField = new JTextField();
 		textField.setColumns(10);
 		
@@ -42,7 +43,9 @@ public class ScriptCommentDialog extends JDialog{
 				String comment = textField.getText();
 				Script script = new Script();
 				script.setCommand("주석");
-				script.appendData(comment);
+				ScriptComment scriptcomment = new ScriptComment();
+				scriptcomment.setData(comment);
+				script.setObject(scriptcomment);
 				ScriptPanel.addRow(script);
 				
 				dispose();

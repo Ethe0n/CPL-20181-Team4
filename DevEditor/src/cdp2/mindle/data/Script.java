@@ -1,43 +1,38 @@
 package cdp2.mindle.data;
 
+import java.util.List;
+
 public class Script {
-	String command;
-	String data;
-	boolean selected;
+	private String command;
+	private String data;
+	private Object scriptObject;
 	
 	public Script() {
 		command = "";
 		data = "";
-		selected = false;
-	}
-	
-	public void setSelected(boolean selected) {
-		this.selected = selected;
+		scriptObject = null;
 	}
 	
 	public void setCommand(String command) {
 		this.command = command;
 	}
 	
-	public void appendData(String data) {
-		this.data += data + " | ";
+	public String getData() {
+		return scriptObject.toString();
 	}
+	
 	
 	public String getCommand() {
 		return command;
 	}
 	
-	public String getData() {
-		return data;
-	}
-	
-	public boolean getSelected() {
-		return selected;
-	}
-	
-	public String toBinary()
+	public void setObject(Object scriptObject)
 	{
-		return "";
+		this.scriptObject = scriptObject;
+	}
+	
+	public Object getScriptObject() {
+		return scriptObject;
 	}
 	
 	public void parse(String binary)

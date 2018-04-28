@@ -98,8 +98,4 @@ public class CoreManager {
 	public void setCommand(String command) {
 		scriptManager.setCommand(command);
 	}
-	
-	public void appendData(String data) {
-		scriptManager.appendData(data);
-	}
 }

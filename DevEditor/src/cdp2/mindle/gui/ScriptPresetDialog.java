@@ -27,15 +27,25 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import cdp2.mindle.data.Script;
+import cdp2.mindle.data.ScriptPreset;
+import cdp2.mindle.data.ScriptPresetTable;
+import cdp2.mindle.data.ScriptQuestionTable;
+
 public class ScriptPresetDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private final ScriptPresetTableModel tableModel = new ScriptPresetTableModel();
+	private static ScriptPresetGroupDialog dialog; 
+	private JTextField input_ID;
+	private JTextField input_MinAns;
+	private JTextField input_MaxAns;
 	private JTable table;
 
 	public ScriptPresetDialog() {
+		
+		setTitle("프리셋");
+		
 		setBounds(100, 100, 450, 365);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -49,45 +59,69 @@ public class ScriptPresetDialog extends JDialog {
 		JLabel lblNewLabel = new JLabel("최대 답변 개수");
 		lblNewLabel.setFont(new Font("Gulim", Font.PLAIN, 15));
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		input_ID = new JTextField();
+		input_ID.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
+		input_MinAns = new JTextField();
+		input_MinAns.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
+		input_MaxAns = new JTextField();
+		input_MaxAns.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("선택지");
 		lblNewLabel_1.setFont(new Font("Gulim", Font.PLAIN, 15));
 		
-		JButton btnNewButton = new JButton("추가");
-		btnNewButton.setFont(new Font("Gulim", Font.PLAIN, 15));
+		JButton addBtn = new JButton("추가");
+		addBtn.setFont(new Font("Gulim", Font.PLAIN, 15));
+		addBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ScriptPresetTable scpInfo = new ScriptPresetTable();
+				tableModel.addRow(scpInfo);
+			}
+		});
 		
 		JScrollPane scrollPane = new JScrollPane();
+		
+		JButton confirmBtn = new JButton("확 인");
+		confirmBtn.setFont(new Font("Gulim", Font.PLAIN, 15));
+		
+		JButton deleteBtn = new JButton("삭제");
+		deleteBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tableModel.deleteRow();	
+			}
+		});
+		
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
-						.addGroup(Alignment.LEADING, gl_contentPanel.createSequentialGroup()
-							.addComponent(lblId)
-							.addGap(94)
-							.addComponent(textField, GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE))
-						.addGroup(Alignment.LEADING, gl_contentPanel.createSequentialGroup()
-							.addComponent(label)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(textField_1, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE))
-						.addGroup(Alignment.LEADING, gl_contentPanel.createSequentialGroup()
-							.addComponent(lblNewLabel)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE))
-						.addGroup(Alignment.LEADING, gl_contentPanel.createSequentialGroup()
-							.addComponent(lblNewLabel_1)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnNewButton)))
+			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addComponent(lblId)
+									.addGap(94)
+									.addComponent(input_ID, GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addComponent(label)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(input_MinAns, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addComponent(lblNewLabel)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(input_MaxAns, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addComponent(lblNewLabel_1)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(addBtn)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(deleteBtn))))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(176)
+							.addComponent(confirmBtn)))
 					.addContainerGap())
 		);
 		gl_contentPanel.setVerticalGroup(
@@ -96,51 +130,68 @@ public class ScriptPresetDialog extends JDialog {
 					.addContainerGap()
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblId)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(input_ID, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(label)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(input_MinAns, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel)
-						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(input_MaxAns, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnNewButton)
-						.addComponent(lblNewLabel_1))
+						.addComponent(addBtn)
+						.addComponent(lblNewLabel_1)
+						.addComponent(deleteBtn))
 					.addGap(14)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(37, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+					.addComponent(confirmBtn))
 		);
 		
 		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null},
-			},
-			new String[] {
-				"No.", "\uB370\uC774\uD130", "\uD56D\uBAA9", "\uC120\uD0DD"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Integer.class, Object.class, Object.class, Boolean.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
+		table.setBorder(new LineBorder(new Color(0, 0, 0)));
+		table.setModel(tableModel);
 		table.getColumnModel().getColumn(0).setPreferredWidth(40);
 		table.getColumnModel().getColumn(0).setMaxWidth(40);
-		table.getColumnModel().getColumn(1).setPreferredWidth(340);
+		table.getColumnModel().getColumn(1).setPreferredWidth(100);
 		table.getColumnModel().getColumn(2).setPreferredWidth(50);
-		table.getColumnModel().getColumn(2).setMaxWidth(50);
+		table.getColumnModel().getColumn(2).setMaxWidth(300);
 		table.getColumnModel().getColumn(3).setPreferredWidth(50);
 		table.getColumnModel().getColumn(3).setMaxWidth(50);
-		table.getColumn("항목").setCellRenderer(new ScriptPresetButtonRenderer());
-        table.getColumn("항목").setCellEditor(new ScriptPresetButtonEditor(new JCheckBox()));
+		table.getColumn("문항").setCellRenderer(new ScriptPresetButtonRenderer());
+        table.getColumn("문항").setCellEditor(new ScriptPresetButtonEditor(new JCheckBox()));
 		table.setFont(new Font("Gulim", Font.PLAIN, 15));
 		
+		
+		confirmBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String id = input_ID.getText();
+				int minAns = Integer.parseInt(input_MinAns.getText());
+				int maxAns = Integer.parseInt(input_MaxAns.getText());
+				
+				Script script = new Script();
+				script.setCommand("프리셋");
+				
+				ScriptPreset scriptPreset = new ScriptPreset();
+				scriptPreset.setId(id);
+				scriptPreset.setMinAns(minAns);
+				scriptPreset.setMaxAns(maxAns);
+				
+				
+				tableModel.setData(dialog.getData(),dialog.getRow());
+			
+				scriptPreset.setPresetTable(tableModel.getData());
+				
+				
+				script.setObject(scriptPreset);
+				
+				ScriptPanel.addRow(script);
+				
+				dispose();
+			}
+		});
 		
 		scrollPane.setViewportView(table);
 		contentPanel.setLayout(gl_contentPanel);
@@ -148,7 +199,11 @@ public class ScriptPresetDialog extends JDialog {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setVisible(true);
 	}
-
+	
+	public static void callGroupDialog(int row) {
+		dialog = new ScriptPresetGroupDialog(row);
+    	dialog.setLocationRelativeTo(null);
+	}
 }
 
 class ScriptPresetButtonRenderer extends JButton implements TableCellRenderer {
@@ -177,7 +232,8 @@ class ScriptPresetButtonEditor extends DefaultCellEditor {
     protected JButton button;
     private String label;
     private boolean isPushed;
-
+    private int row;
+    
     public ScriptPresetButtonEditor(JCheckBox checkBox) {
         super(checkBox);
         button = new JButton();
@@ -203,6 +259,7 @@ class ScriptPresetButtonEditor extends DefaultCellEditor {
         }
         label = (value == null) ? "+" : value.toString();
         button.setText(label);
+        this.row = row;
         isPushed = true;
         return button;
     }
@@ -211,8 +268,7 @@ class ScriptPresetButtonEditor extends DefaultCellEditor {
     public Object getCellEditorValue() {
         if (isPushed) {
 //            JOptionPane.showMessageDialog(button, label + ": Ouch!");
-        	ScriptPresetGroupDialog dialog = new ScriptPresetGroupDialog();
-        	dialog.setLocationRelativeTo(null);
+        	ScriptPresetDialog.callGroupDialog(row);
         }
         isPushed = false;
         return label;
