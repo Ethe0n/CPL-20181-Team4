@@ -77,7 +77,14 @@ public class ScriptPresetGroupDialog extends JDialog {
 				new String[] {
 					"No.", "\uD56D\uBAA9 \uC774\uB984", "\uBCC0\uD654\uB7C9", "\uC120\uD0DD"
 				}
-			));
+			) {
+				Class[] columnTypes = new Class[] {
+					Object.class, Object.class, Object.class, Boolean.class
+				};
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+			});
 			table.getColumnModel().getColumn(0).setPreferredWidth(40);
 			table.getColumnModel().getColumn(0).setMaxWidth(40);
 			table.getColumnModel().getColumn(3).setPreferredWidth(50);

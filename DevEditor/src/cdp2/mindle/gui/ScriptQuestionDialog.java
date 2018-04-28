@@ -19,7 +19,6 @@ import javax.swing.JLayeredPane;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import org.eclipse.wb.swing.FocusTraversalOnArray;
 import java.awt.Component;
 import java.awt.Container;
 
@@ -168,11 +167,11 @@ public class ScriptQuestionDialog extends JDialog{
 				"No.", "\uC9C8\uBB38", "\uC120\uD0DD"
 			}
 		) {
-			boolean[] columnEditables = new boolean[] {
-				true, false, true
+			Class[] columnTypes = new Class[] {
+				Object.class, Object.class, Boolean.class
 			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
 			}
 		});
 		table.getColumnModel().getColumn(0).setPreferredWidth(40);

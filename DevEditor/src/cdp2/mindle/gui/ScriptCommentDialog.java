@@ -12,6 +12,9 @@ import javax.swing.border.EmptyBorder;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.SwingConstants;
 
 public class ScriptCommentDialog extends JDialog{
@@ -29,8 +32,17 @@ public class ScriptCommentDialog extends JDialog{
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
-		JButton btnNewButton = new JButton("확 인");
-		btnNewButton.setFont(new Font("Gulim", Font.PLAIN, 15));
+		JButton confirmBtn = new JButton("확 인");
+		confirmBtn.setFont(new Font("Gulim", Font.PLAIN, 15));
+		confirmBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String comment = textField.getText();
+				
+			}
+		});;
+		
+		
+		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -41,7 +53,7 @@ public class ScriptCommentDialog extends JDialog{
 							.addComponent(textField, GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(179)
-							.addComponent(btnNewButton)))
+							.addComponent(confirmBtn)))
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
@@ -50,7 +62,7 @@ public class ScriptCommentDialog extends JDialog{
 					.addContainerGap()
 					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-					.addComponent(btnNewButton)
+					.addComponent(confirmBtn)
 					.addContainerGap())
 		);
 		getContentPane().setLayout(groupLayout);

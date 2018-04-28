@@ -122,14 +122,14 @@ public class ScriptPresetDialog extends JDialog {
 			new String[] {
 				"No.", "\uB370\uC774\uD130", "\uD56D\uBAA9", "\uC120\uD0DD"
 			}
-		){
+		) {
 			Class[] columnTypes = new Class[] {
-					Integer.class, Object.class, Object.class, Object.class
-				};
-				public Class getColumnClass(int columnIndex) {
-					return columnTypes[columnIndex];
-				}
-			});
+				Integer.class, Object.class, Object.class, Boolean.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
 		table.getColumnModel().getColumn(0).setPreferredWidth(40);
 		table.getColumnModel().getColumn(0).setMaxWidth(40);
 		table.getColumnModel().getColumn(1).setPreferredWidth(340);

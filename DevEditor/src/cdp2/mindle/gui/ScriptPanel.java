@@ -105,11 +105,19 @@ public class ScriptPanel extends JPanel
 		table_1.setFont(new Font("Gulim", Font.PLAIN, 15));
 		table_1.setModel(new DefaultTableModel(
 			new Object[][] {
+				{null, null, null, null},
 			},
 			new String[] {
 				"No.", "\uBA85\uB839\uC5B4", "\uD130\uC774\uD130", "\uC120\uD0DD"
 			}
-		));
+		) {
+			Class[] columnTypes = new Class[] {
+				Object.class, Object.class, Object.class, Boolean.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
 		table_1.getColumnModel().getColumn(0).setPreferredWidth(40);
 		table_1.getColumnModel().getColumn(0).setMaxWidth(40);
 		table_1.getColumnModel().getColumn(1).setPreferredWidth(60);
