@@ -35,6 +35,10 @@ public class AnalysisPanel extends JPanel {
 		
 		JLabel analysisListLabel = new JLabel("해석 목록");
 		analysisListLabel.setFont(new Font("굴림", Font.PLAIN, 15));
+		
+		JButton button = new JButton("+");
+		
+		JButton button_1 = new JButton("-");
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -42,20 +46,27 @@ public class AnalysisPanel extends JPanel {
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
+							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)
 							.addGap(25))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(analysisListLabel)
-							.addContainerGap(377, Short.MAX_VALUE))))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(button)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap(269, Short.MAX_VALUE))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(18)
-					.addComponent(analysisListLabel)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(analysisListLabel)
+						.addComponent(button)
+						.addComponent(button_1))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 182, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(72, Short.MAX_VALUE))
+					.addContainerGap(68, Short.MAX_VALUE))
 		);
 		
 		analysisTable = new JTable();
