@@ -11,7 +11,7 @@ export default class Mindle extends JJorm<JJWAK.Page.Props>{
   ACTION_RECEIVER_TABLE:ActionReceiverTable = {
     'chat-in': (answer:string) => {
       XHR.post("/mindle", { value: answer }).then(this.onChatResult);
-      JJorm.trigger('chat-out-me', `a-${answer}`);
+      JJorm.trigger('chat-out-me', answer[0] === "=" ? answer : `a-${answer}`);
     },
     'chat-req-in': (list:string[]) => {
       this.$input.setState({ asking: true, list: list });

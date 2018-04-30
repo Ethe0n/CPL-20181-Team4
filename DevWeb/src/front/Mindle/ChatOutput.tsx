@@ -43,7 +43,7 @@ export class ChatOutput extends JJorm<Props, State>{
         title: title,
         image: image
       } : null,
-      content: L.render(`chat-${key}`, ...args),
+      content: key[0] === "=" ? key.slice(1) : L.render(`chat-${key}`, ...args),
       timestamp: new Date(),
       isMine: title === null
     }) >= ChatOutput.LOG_LIMIT){

@@ -112,6 +112,7 @@
     "ai": "민들레",
 
     "chat-a-yes": "응.",
+    "chat-a-yes-so": "그렇구나.",
     "chat-a-no-later": "아니, 다음에 하자.",
 
     "chat-oops-0": "이런! 무언가가 잘못되었어요.",
@@ -127,6 +128,10 @@
     "chat-a-read-report": "내 마음의 기록을 볼래.",
 
     "chat-lets-test": "그럼 지금부터 몇 가지 질문을 해 볼게요.",
-    "chat-ready-test": "질문을 받을 준비가 되었나요?"
+    "chat-ready-test": "질문을 받을 준비가 되었나요?",
+    "chat-start-test": "그럼 시작합니다!",
+    "chat-restart-test": "미처 끝내지 못한 질문이 있어요. 계속 할까요?",
+    "chat-finish-test-0": "질문이 끝났어요!",
+    "chat-finish-test-1": "결과를 계산해 볼게요."
   }
 }

@@ -25,7 +25,7 @@ export class SmartBuffer{
   }
   public get sum():number{
     return this.buffer.reduce((pv, v) => {
-      return (pv + v) % 0xFF;
+      return (pv + v) % 0x100;
     }, 0);
   }
   public readSignedInteger(bitLength:number):number{

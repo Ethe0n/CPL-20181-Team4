@@ -1,13 +1,11 @@
-import { MindleCheckup } from "./MindleCheckup";
+import { MindleCheckup, StateResult } from "./MindleCheckup";
+import Logger from "jj-log";
 
 type Transistor = (automaton:MindleAutomaton, value:string) => Promise<TransitionResult>;
 type TransitionResult = {
   'nextState': AutomatonState,
-  'output'?: string[]
-};
-type StateResult = {
-  'output': string[],
-  'input': string[]
+  'outputResolver'?: (arr:string[]) => string[],
+  'inputResolver'?: (arr:string[]) => string[]
 };
 enum AutomatonState{
   INVALID,
@@ -16,6 +14,8 @@ enum AutomatonState{
   WRITE_SKETCHBOOK,
   TAKE_TEST,
   TAKING_TEST,
+  TAKEN_TEST,
+  RESULT_TEST,
   READ_REPORT
 }
 export class MindleAutomaton{
@@ -33,8 +33,16 @@ export class MindleAutomaton{
       input: [ "yes", "no-later" ]
     },
     [AutomatonState.TAKING_TEST]: {
-      output: [ "start-test" ],
+      output: [ "restart-test" ],
+      input: [ "yes", "no-later" ]
+    },
+    [AutomatonState.TAKEN_TEST]: {
+      output: [ "finish-test-0", "finish-test-1" ],
       input: [ "yes" ]
+    },
+    [AutomatonState.RESULT_TEST]: {
+      output: [],
+      input: [ "yes-so" ]
     }
   };
   private static table:Table<MindleAutomaton> = {};
@@ -50,20 +58,61 @@ export class MindleAutomaton{
     },
     [AutomatonState.TAKE_TEST]: async (a, v) => {
       switch(v){
-        case "yes":
+        case "yes":{
+          let result:StateResult;
+
           a.checkup = new MindleCheckup("test");
-          return { nextState: AutomatonState.TAKING_TEST };
+          result = a.checkup.step();
+
+          return {
+            nextState: AutomatonState.TAKING_TEST,
+            outputResolver: () => result.output,
+            inputResolver: () => result.input
+          };
+        }
         case "no-later":
-          return { nextState: AutomatonState.INITIAL, output: [ "first-again" ] };
+          return { nextState: AutomatonState.INITIAL, outputResolver: () => [ "first-again" ] };
       }
       return { nextState: AutomatonState.INVALID };
     },
     [AutomatonState.TAKING_TEST]: async (a, v) => {
-      a.checkup = new MindleCheckup("test");
+      if(v === "no-later"){
+        return { nextState: AutomatonState.INITIAL, outputResolver: () => [ "first-again" ] };
+      }
+      const result = a.checkup.step(v);
 
-      console.log(Math.random());
+      if(!result){
+        return {
+          nextState: AutomatonState.TAKEN_TEST,
+          outputResolver: () => [ "finish-test-0", "finish-test-1" ]
+        };
+      }
+      Logger.log(
+        "MindleAutomaton %F_CYAN%CHECKUP%NORMAL%",
+        a.checkup.toString(),
+        `Next: ${(a.checkup.script as any)['identifier']} - ${(a.checkup.script as any)['data']}`
+      );
+      return {
+        nextState: AutomatonState.TAKING_TEST,
+        outputResolver: () => result.output,
+        inputResolver: () => result.input
+      };
+    },
+    [AutomatonState.TAKEN_TEST]: async (a, v) => {
+      const advices = a.checkup.advice();
 
-      return { nextState: AutomatonState.TAKING_TEST };
+      Logger.info(
+        "MindleAutomaton",
+        a.checkup.toString(),
+        `Advices: ${advices.join(' ')}`
+      );
+      return {
+        nextState: AutomatonState.RESULT_TEST,
+        outputResolver: () => advices
+      };
+    },
+    [AutomatonState.RESULT_TEST]: async (a, v) => {
+      return { nextState: AutomatonState.INITIAL, outputResolver: () => [ "first-again" ] };
     }
   };
 
@@ -88,13 +137,17 @@ export class MindleAutomaton{
     result = await transistor(this, value);
     this.state = result.nextState;
 
-    return this.getResult(result.output);
+    Logger.log("MindleAutomaton %F_YELLOW%NEXT%NORMAL%", AutomatonState[this.state]);
+
+    return this.getResult(result);
   }
-  public getResult(output?:string[]):StateResult{
+  public getResult(result:TransitionResult = null):StateResult{
     const R = { ...MindleAutomaton.STATE_RESULTS[this.state] };
 
-    if(output) R.output = output;
-    
+    if(result){
+      if(result.outputResolver) R.output = result.outputResolver(R.output);
+      if(result.inputResolver) R.input = result.inputResolver(R.input);
+    }
     return R;
   }
 }

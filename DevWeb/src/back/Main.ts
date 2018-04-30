@@ -41,3 +41,6 @@ if(SPDY_OPTIONS){
     Logger.success("HTTP Server");
   });
 }
+process.on('unhandledRejection', e => {
+  throw e;
+});

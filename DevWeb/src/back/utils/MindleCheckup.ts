@@ -1,7 +1,7 @@
 import { getProjectData } from "./System";
 import { SmartBuffer } from "./SmartBuffer";
 
-enum QuestionType{
+/*enum QuestionType{
   PICK,
   RANGE,
   TEXT
@@ -13,7 +13,7 @@ enum CheckupTarget{
   ADULT      = 0b0000_0100,
   ADOLESCENT = 0b0000_0010,
   KID        = 0b0000_0001
-}
+}*/
 enum CommandType{
   COMMENT = 0b0000,
   NOTICE = 0b1000,
@@ -27,6 +27,11 @@ enum QuestionMethod{
 }
 enum PresetOverrideField{
   ANSWER_COUNTS = 0b0000_0001
+}
+enum CriterionFlag{
+  ALWAYS = 0b1000_0000,
+  OR_EQUAL = 0b0000_0010,
+  GREATER_THAN = 0b0000_0001
 }
 type ExtensionHeader = {
   'key': string,
@@ -101,10 +106,19 @@ type AnalysisCriterion = {
   'value': number,
   'advice': string
 };
+export type StateResult = {
+  'output': string[],
+  'input': string[]
+};
 export class MindleCheckup<T = Object>{
   /*private questions:Table<MindleQuestion<T>>;
   private currentQuestion:number;
   private currentScore:T;*/
+  private cursor:number;
+  private presets:Table<ScriptPresetDefinition>;
+  private scores:Table<number>;
+  private scoreNames:Table<string>;
+
   private fileVersion:string;
   private code:string;
   private language:string;
@@ -113,6 +127,9 @@ export class MindleCheckup<T = Object>{
   private extensions:ExtensionHeader[];
   private scripts:Script[];
   private analysises:Analysis[];
+
+  public running:boolean;
+  public asking:boolean;
 
   constructor(name:string){
     this.load(new SmartBuffer(getProjectData(`checkups/${name}.mindle`)));
@@ -281,6 +298,161 @@ export class MindleCheckup<T = Object>{
       R.push(item);
     }
     return R;
+  }
+
+  public get script():Script{
+    return this.scripts[this.cursor];
+  }
+  public get options():ScriptOption[]{
+    const script:ScriptQuestion = this.script as ScriptQuestion;
+
+    switch(script.method){
+      case QuestionMethod.DIRECT:
+        return script.options;
+      case QuestionMethod.PRESET:
+        return this.presets[script.presetIdentifier].options;
+    }
+    return null;
+  }
+  public initialize():StateResult{
+    this.running = true;
+    this.cursor = 0;
+    this.presets = {};
+    this.scores = {};
+    this.scoreNames = {};
+
+    this.analysises.forEach(v => {
+      this.scores[v.key] = v.startValue;
+      this.scoreNames[v.key] = v.name;
+    });
+    return {
+      output: [ "start-test" ],
+      input: [ "yes" ]
+    };
+  }
+  public step(input:string = null):StateResult{
+    if(!this.running){
+      return this.initialize();
+    }
+    const R:StateResult = {
+      output: [],
+      input: []
+    };
+    let script:Script;
+
+    // 직전 입력 처리
+    if(this.asking){
+      this.answer(input.slice(1));
+      this.asking = false;
+    }
+    // 스크립트 읽기
+    while(script = this.script){
+      switch(script.command){
+        case CommandType.COMMENT:
+          break;
+        case CommandType.NOTICE:
+          R.output.push(`=${script.data}`);
+          break;
+        case CommandType.PRESET_DEFINITION:
+          this.presets[script.presetIdentifier] = script;
+          break;
+        case CommandType.QUESTION:
+          this.asking = true;
+          return this.ask(R, script);
+      }
+      this.cursor++;
+    }
+    return null;
+  }
+  public answer(value:string):void{
+    const options = this.options;
+    let option:ScriptOption;
+
+    if(options){
+      for(const v of this.options){
+        if(value === v.data){
+          option = v;
+          break;
+        }
+      }
+      option.groups.forEach(v => {
+        this.scores[v.key] += v.value;
+      });
+    }
+    if(option && option.nextScript){
+      this.cursor = this.scripts.findIndex(v => {
+        if(v.command === CommandType.COMMENT || v.command === CommandType.PRESET_DEFINITION){
+          return false;
+        }
+        return v.identifier === option.nextScript;
+      });
+    }else{
+      this.cursor++;
+    }
+  }
+  public ask(R:StateResult, script:ScriptQuestion):StateResult{
+    R.output.push(`=${script.identifier}. ${script.data}`);
+    switch(script.method){
+      case QuestionMethod.DIRECT:
+        R.input.push(...script.options.map(v => `=${v.data}`));
+        break;
+      case QuestionMethod.PRESET:
+        R.input.push(...this.presets[script.presetIdentifier].options.map(v => `=${v.data}`));
+        break;
+      case QuestionMethod.SUBJECTIVE:
+        R.input.push("===");
+        break;
+    }
+    return R;
+  }
+  public advice():string[]{
+    const R:string[] = [];
+
+    this.analysises.forEach(v => {
+      let value:number;
+      let bool:boolean;
+
+      if(v.groupType === AnalysisGroupType.INDEPENDENT){
+        value = this.scores[v.key];
+      }else{
+        value = v.terms.reduce((pw, w, i) => {
+          const coeff = i === 0
+            ? 1
+            : v.signs[i - 1]
+            ? -1
+            : 1
+          ;
+          return pw + coeff * this.scores[w];
+        }, 0);
+      }
+      for(const w of v.criteria){
+        if(w.flags & CriterionFlag.ALWAYS){
+          R.push(`=${w.advice}`);
+          break;
+        }
+        // 00: <
+        // 01: >
+        // 10: <=
+        // 11: >=
+        bool = w.flags & CriterionFlag.GREATER_THAN
+          ? value > w.value
+          : value < w.value
+        ;
+        if(w.flags & CriterionFlag.OR_EQUAL){
+          bool = bool || value === w.value;
+        }
+        if(bool){
+          R.push(`=${w.advice}`);
+          break;
+        }
+      }
+    });
+    return R;
+  }
+  public toString():string{
+    return Object.keys(this.scores).map(v => (
+      `[${this.scoreNames[v]}]: ${this.scores[v]}`
+    )).join('\n');
   }
 }
 /*class MindleQuestion<T>{
