@@ -1,6 +1,10 @@
 import { MindleCheckup } from "./MindleCheckup";
 
-type Transistor = (automaton:MindleAutomaton, value:string) => Promise<AutomatonState>;
+type Transistor = (automaton:MindleAutomaton, value:string) => Promise<TransitionResult>;
+type TransitionResult = {
+  'nextState': AutomatonState,
+  'output'?: string[]
+};
 type StateResult = {
   'output': string[],
   'input': string[]
@@ -29,36 +33,37 @@ export class MindleAutomaton{
       input: [ "yes", "no-later" ]
     },
     [AutomatonState.TAKING_TEST]: {
-      output: [],
+      output: [ "start-test" ],
       input: [ "yes" ]
     }
   };
   private static table:Table<MindleAutomaton> = {};
   private static transitions:Table<Transistor> = {
     [AutomatonState.INVALID]: async (a, v) => {
-      return AutomatonState.INITIAL;
+      return { nextState: AutomatonState.INITIAL };
     },
     [AutomatonState.INITIAL]: async (a, v) => {
       switch(v){
-        case "take-test": return AutomatonState.TAKE_TEST;
+        case "take-test": return { nextState: AutomatonState.TAKE_TEST };
       }
-      return AutomatonState.INVALID;
+      return { nextState: AutomatonState.INVALID };
     },
     [AutomatonState.TAKE_TEST]: async (a, v) => {
       switch(v){
         case "yes":
           a.checkup = new MindleCheckup("test");
-          return AutomatonState.TAKING_TEST;
+          return { nextState: AutomatonState.TAKING_TEST };
         case "no-later":
-          a.outputResolver = () => [ "first-again" ];
-          return AutomatonState.INITIAL;
+          return { nextState: AutomatonState.INITIAL, output: [ "first-again" ] };
       }
-      return AutomatonState.INVALID;
+      return { nextState: AutomatonState.INVALID };
     },
     [AutomatonState.TAKING_TEST]: async (a, v) => {
       a.checkup = new MindleCheckup("test");
 
-      return AutomatonState.TAKING_TEST;
+      console.log(Math.random());
+
+      return { nextState: AutomatonState.TAKING_TEST };
     }
   };
 
@@ -68,7 +73,6 @@ export class MindleAutomaton{
     ;
   }
 
-  private outputResolver:(prevOutput:string[]) => string[];
   private checkup:MindleCheckup;
   private state:AutomatonState;
 
@@ -77,19 +81,20 @@ export class MindleAutomaton{
   }
   public async move(value:string):Promise<StateResult>{
     const transistor = MindleAutomaton.transitions[this.state];
+    let result:TransitionResult;
 
     if(!transistor) return MindleAutomaton.STATE_RESULTS[AutomatonState.INVALID];
 
-    this.state = await transistor(this, value);
-    return this.getResult();
+    result = await transistor(this, value);
+    this.state = result.nextState;
+
+    return this.getResult(result.output);
   }
-  public getResult():StateResult{
+  public getResult(output?:string[]):StateResult{
     const R = { ...MindleAutomaton.STATE_RESULTS[this.state] };
 
-    if(this.outputResolver){
-      R.output = this.outputResolver(R.output);
-      this.outputResolver = null;
-    }
+    if(output) R.output = output;
+    
     return R;
   }
 }

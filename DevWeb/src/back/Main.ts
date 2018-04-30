@@ -23,6 +23,7 @@ App.use(BodyParser.json());
 App.use(CookieParser(SETTINGS['cookie-secret']));
 App.use("/libs", Express.static(Path.resolve(__dirname, "./libs")));
 App.use("/pages", Express.static(Path.resolve(__dirname, "./pages")));
+App.use("/media", Express.static(Path.resolve(__dirname, "./media")));
 App.use("/mindle", Mindle());
 
 App.get("/gwalli/load-languages", (req, res) => {

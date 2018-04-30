@@ -5,7 +5,6 @@ import CookieParser = require("cookie-parser");
 import BodyParser = require("body-parser");
 import Exession = require("express-session");
 import Passport = require("passport");
-import { Strategy as LocalStrategy } from "passport-local";
 import Logger from "jj-log";
 
 import { SETTINGS, getProjectData, getEncrypted } from "./System";
@@ -29,26 +28,6 @@ export const runPassport = (App:Express.Application) => {
   Passport.deserializeUser<JJWAK.DB.User, JJWAK.DB.User>((user, next) => {
     next(null, user);
   });
-  Passport.use('local', new LocalStrategy({
-    usernameField: "id",
-    passwordField: "password",
-    passReqToCallback: false
-  }, (id, pw, next) => {
-    const USER = DB.getRepository(User);
-
-    USER.findOne({
-      accountId: id,
-      accountPassword: getEncrypted(pw)
-    }).then(user => {
-      if(user){
-        user.enteredAt = new Date();
-        USER.save(user);
-        next(null, user.sessionize());
-      }else{
-        next(null, false);
-      }
-    });
-  }));
 };
 export const runWebServer = (App:Express.Application) => {
   const SPDY_OPTIONS:Spdy.server.ServerOptions = SETTINGS['https'] ? {
