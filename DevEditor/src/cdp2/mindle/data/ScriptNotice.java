@@ -1,10 +1,11 @@
 package cdp2.mindle.data;
 
-public class ScriptNotice {
+public class ScriptNotice extends Script{
 	private String id;
 	private String notice;
 	
 	public ScriptNotice() {
+		super();
 		id = "";
 		notice = "";
 	}

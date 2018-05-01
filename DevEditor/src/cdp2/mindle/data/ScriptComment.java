@@ -1,9 +1,10 @@
 package cdp2.mindle.data;
 
-public class ScriptComment {
+public class ScriptComment extends Script {
 	private String comment;
 	
 	public ScriptComment() {
+		super();
 		comment = "";
 	}
 	

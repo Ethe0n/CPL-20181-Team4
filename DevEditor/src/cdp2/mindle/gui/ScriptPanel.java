@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Font;
@@ -24,11 +25,14 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import cdp2.mindle.data.Script;
+import cdp2.mindle.manager.ScriptManager;
 
 public class ScriptPanel extends JPanel
 {
 	private JTable table_1;
 	private ScriptTableModel tableModel = new ScriptTableModel();
+	
+	private ScriptManager manager = new ScriptManager();
 	
 	private ScriptPanel thisPanel;
 	
@@ -147,6 +151,13 @@ public class ScriptPanel extends JPanel
 	
 	public void addRow(Script scInfo) {
 		tableModel.addRow(scInfo);
+	}
+	
+	public void updateManager() {
+		manager.setScriptList(tableModel.getData());
+	}
+	public ScriptManager getManager() {
+		return manager;
 	}
 }
 

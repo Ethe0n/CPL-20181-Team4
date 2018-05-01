@@ -1,48 +1,36 @@
 package cdp2.mindle.gui;
 
-import javax.swing.JDialog;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultCellEditor;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.border.EmptyBorder;
-
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
-
-import javax.swing.JTextField;
-import javax.swing.JToggleButton;
-import javax.swing.UIManager;
-import javax.swing.JPanel;
-import javax.swing.JLayeredPane;
-
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Component;
-import java.awt.Container;
-
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.UIManager;
+import javax.swing.border.LineBorder;
 import javax.swing.table.TableCellRenderer;
 
-import cdp2.mindle.data.ExtensionInformation;
 import cdp2.mindle.data.Script;
-import cdp2.mindle.data.ScriptPresetGroupTable;
+import cdp2.mindle.data.ScriptPreset;
 import cdp2.mindle.data.ScriptQuestion;
 import cdp2.mindle.data.ScriptQuestionTable;
-
-import javax.swing.JTabbedPane;
-import javax.swing.JTextPane;
-import javax.swing.JTextArea;
-import javax.swing.JCheckBox;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
 
 public class ScriptQuestionDialog extends JDialog{
 	
@@ -325,10 +313,23 @@ public class ScriptQuestionDialog extends JDialog{
 					.addContainerGap(21, Short.MAX_VALUE))
 		);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setEditable(false);
-		scrollPane_1.setViewportView(textArea);
+		JTextArea textPreset = new JTextArea();
+		textPreset.setEditable(false);
+		scrollPane_1.setViewportView(textPreset);
 		panel_1.setLayout(gl_panel_1);
+		
+		searchBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String find_id = input_PresetID.getText();
+				Script find_preset = mainPanel.getManager().findScriptbyId(find_id);
+				if(find_preset == null)
+					textPreset.setText("해당 프리셋이 존재하지 않음");
+				else {
+					textPreset.setText(find_preset.getScriptObject().toString());
+				}
+			}
+		});
+		
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(0, 0, 404, 308);
@@ -446,7 +447,7 @@ public class ScriptQuestionDialog extends JDialog{
 				script.setObject(scriptQuestion);
 				
 				mainPanel.addRow(script);
-				
+				mainPanel.updateManager();
 				dispose();
 			}
 		});

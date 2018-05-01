@@ -2,6 +2,8 @@ package cdp2.mindle.data;
 
 import java.util.List;
 
+import cdp2.mindle.core.CoreManager;
+
 public class Script {
 	private String command;
 	private String data;

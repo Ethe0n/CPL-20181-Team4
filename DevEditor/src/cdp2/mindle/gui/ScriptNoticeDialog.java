@@ -60,7 +60,7 @@ public class ScriptNoticeDialog extends JDialog{
 				
 				script.setObject(scriptNotice);
 				panel.addRow(script);
-				
+				panel.updateManager();
 				dispose();
 			}
 		});

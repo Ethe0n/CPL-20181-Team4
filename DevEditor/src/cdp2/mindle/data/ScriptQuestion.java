@@ -3,7 +3,7 @@ package cdp2.mindle.data;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScriptQuestion {
+public class ScriptQuestion extends Script{
 	private String id;
 	private String question;
 	private int curMethod;
@@ -23,6 +23,7 @@ public class ScriptQuestion {
 	private int maxLen;
 	
 	public ScriptQuestion() {
+		super();
 		id = "";
 		question = "";
 		curMethod = 0;

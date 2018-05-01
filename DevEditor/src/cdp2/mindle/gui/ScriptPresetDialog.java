@@ -188,7 +188,7 @@ public class ScriptPresetDialog extends JDialog {
 				script.setObject(scriptPreset);
 				
 				panel.addRow(script);
-				
+				panel.updateManager();
 				dispose();
 			}
 		});

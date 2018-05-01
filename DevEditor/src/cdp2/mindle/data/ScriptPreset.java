@@ -3,13 +3,14 @@ package cdp2.mindle.data;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScriptPreset {
+public class ScriptPreset extends Script{
 	private String id;
 	private int minAns;
 	private int maxAns;
 	private List<ScriptPresetTable> presetTable;
 	
 	public ScriptPreset() {
+		//super();
 		id = "";
 		minAns = 0;
 		maxAns = 0;

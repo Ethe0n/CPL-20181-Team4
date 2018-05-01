@@ -94,8 +94,4 @@ public class CoreManager {
 	public void setInformationExtension(List<ExtensionInformation> extension) {
 		informationManager.setExtension(extension);
 	}
-	
-	public void setCommand(String command) {
-		scriptManager.setCommand(command);
-	}
 }

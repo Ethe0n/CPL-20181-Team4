@@ -52,7 +52,7 @@ public class ScriptCommentDialog extends JDialog{
 				scriptcomment.setData(comment);
 				script.setObject(scriptcomment);
 				panel.addRow(script);
-				
+				panel.updateManager();
 				dispose();
 			}
 		});

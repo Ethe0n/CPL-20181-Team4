@@ -9,6 +9,7 @@ public class ScriptPresetTable {
 	private boolean selected;
 	
 	public ScriptPresetTable() {
+		super();
 		data = "";
 		group = new ArrayList<ScriptPresetGroupTable>();
 		selected = false;
