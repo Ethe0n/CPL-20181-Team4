@@ -12,6 +12,9 @@ public class CoreInformation {
 	public final static String[] targetList = new String[] {
 			"남성", "여성", "노인", "성인", "청소년", "아동"
 	};
+	public final static String[] operationList = new String[] {
+			"이상", "이하", "초과", "미만", "나머지 경우"
+	};
 	public final static Map<String, String> languageList = createLanguageList();
 	private static Map<String, String> createLanguageList() 
 	{
