@@ -59,7 +59,6 @@ public class MainFrame extends JFrame implements ActionListener
 		layout.setHorizontalGroup(
 				   layout.createSequentialGroup()
 				   .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-						   .addComponent(menuBar)
 				           .addComponent(informationPanel)
 				           .addComponent(scriptPanel)
 				           .addComponent(analysisPanel)
@@ -68,7 +67,6 @@ public class MainFrame extends JFrame implements ActionListener
 		
 		layout.setVerticalGroup(
 				   layout.createSequentialGroup()
-				   .addComponent(menuBar)   
 				   .addComponent(informationPanel)
 				   .addComponent(scriptPanel)
 				   .addComponent(analysisPanel)

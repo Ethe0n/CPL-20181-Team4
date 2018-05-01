@@ -1,5 +1,6 @@
 package cdp2.mindle.gui;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -11,16 +12,15 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
+import javax.swing.border.LineBorder;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
 
 public class AnalysisPanel extends JPanel {
 	private JTable analysisTable;
@@ -73,14 +73,14 @@ public class AnalysisPanel extends JPanel {
 		analysisTable.setBorder(new LineBorder(Color.GRAY));
 		analysisTable.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null},
+				{null, null, null, null, null},
 			},
 			new String[] {
-				"No.", "\uBCC0\uC218", "\uC218\uC815"
+				"No.", "\uBC88\uD638", "\uC774\uB984", "\uD3C9\uAC00\uD56D\uBAA9", "\uC0AD\uC81C"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				Integer.class, Object.class, Object.class
+				Integer.class, Integer.class, String.class, Object.class, Object.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -88,10 +88,16 @@ public class AnalysisPanel extends JPanel {
 		});
 		analysisTable.getColumnModel().getColumn(0).setPreferredWidth(39);
 		analysisTable.getColumnModel().getColumn(0).setMaxWidth(60);
+		analysisTable.getColumnModel().getColumn(1).setPreferredWidth(40);
+		analysisTable.getColumnModel().getColumn(1).setMaxWidth(40);
 		analysisTable.getColumnModel().getColumn(2).setPreferredWidth(50);
-		analysisTable.getColumnModel().getColumn(2).setMaxWidth(90);
-		analysisTable.getColumn("수정").setCellRenderer(new ButtonRenderer());
-        analysisTable.getColumn("수정").setCellEditor(new ButtonEditor(new JCheckBox()));
+		analysisTable.getColumnModel().getColumn(2).setMaxWidth(1000);
+		analysisTable.getColumnModel().getColumn(3).setPreferredWidth(40);
+		analysisTable.getColumnModel().getColumn(3).setMaxWidth(200);
+		analysisTable.getColumnModel().getColumn(4).setPreferredWidth(40);
+		analysisTable.getColumnModel().getColumn(4).setMaxWidth(40);
+		analysisTable.getColumn("삭제").setCellRenderer(new ButtonRenderer());
+        analysisTable.getColumn("삭제").setCellEditor(new ButtonEditor(new JCheckBox()));
 		analysisTable.setFont(new Font("굴림", Font.PLAIN, 12));
 		scrollPane.setViewportView(analysisTable);
 		setLayout(groupLayout);
@@ -137,6 +143,11 @@ class ButtonEditor extends DefaultCellEditor {
         });
     }
 
+    public void addActionListener(ActionListener e)
+    {
+    	button.addActionListener(e);
+    }
+    
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value,
             boolean isSelected, int row, int column) {
@@ -156,8 +167,7 @@ class ButtonEditor extends DefaultCellEditor {
     @Override
     public Object getCellEditorValue() {
         if (isPushed) {
-//            JOptionPane.showMessageDialog(button, label + ": Ouch!");
-        	AnalysisPopupDialog dialog = new AnalysisPopupDialog();
+        	AnalysisComponentDialog dialog = new AnalysisComponentDialog();
         }
         isPushed = false;
         return label;
@@ -169,3 +179,4 @@ class ButtonEditor extends DefaultCellEditor {
         return super.stopCellEditing();
     }
 }
+

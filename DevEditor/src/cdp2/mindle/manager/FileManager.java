@@ -1,5 +1,6 @@
 package cdp2.mindle.manager;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -16,7 +17,6 @@ public class FileManager {
 	public byte[] loadFile(String path) throws Exception
 	{
 		InputStream in = new FileInputStream(path);
-		binary = in.readAllBytes();
 		in.close();
 		
 		return binary;
