@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import cdp2.mindle.data.Script;
+import cdp2.mindle.data.ScriptPresetGroupTable;
 import cdp2.mindle.data.ScriptQuestion;
 import cdp2.mindle.data.ScriptQuestionTable;
 
@@ -13,7 +14,7 @@ public class ScriptQuestionTableModel extends AbstractTableModel {
 	
 	private List<ScriptQuestionTable> data;
 	private List<String> columnNames;
-	boolean[] columnEditables = new boolean[] { false, true, true };
+	boolean[] columnEditables = new boolean[] { false, true, true, true };
 
 	public ScriptQuestionTableModel() {
 		data = new ArrayList<ScriptQuestionTable>();
@@ -26,6 +27,8 @@ public class ScriptQuestionTableModel extends AbstractTableModel {
 		case 0:
 			return Integer.class;
 		case 1:
+			return String.class;
+		case 2:
 			return String.class;
 		default:
 			return Boolean.class;
@@ -58,8 +61,10 @@ public class ScriptQuestionTableModel extends AbstractTableModel {
 		case 0:
 			return rowIndex + 1;
 		case 1:
-			return data.get(rowIndex).getItem();
+			return data.get(rowIndex).getGroup();
 		case 2:
+			return data.get(rowIndex).getItem();
+		case 3:
 			return data.get(rowIndex).getSelected();
 		default:
 			return null;
@@ -83,15 +88,23 @@ public class ScriptQuestionTableModel extends AbstractTableModel {
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 		switch (columnIndex) {
-		case 1:
-			data.get(rowIndex).setItem(aValue != null ? aValue.toString() : null);
-			break;
+		case 1: break;
 		case 2:
+			data.get(rowIndex).setItem(aValue != null ? aValue.toString() : null);
+			break;	
+		case 3:
 			data.get(rowIndex).setSelected((Boolean) aValue);
 			break;
 		default:
 			break;
 		}
+	}
+	
+	public void setData(List<ScriptPresetGroupTable> data, int row) {
+		this.data.get(row).setGroup(data);
+		
+		this.data.get(row).setItem(data.toString());
+		fireTableDataChanged();
 	}
 	
 	public List<ScriptQuestionTable> getData() {
@@ -103,6 +116,7 @@ public class ScriptQuestionTableModel extends AbstractTableModel {
 
 		names.add("No.");
 		names.add("문항");
+		names.add("문항 데이터");
 		names.add("선택");
 
 		return names;

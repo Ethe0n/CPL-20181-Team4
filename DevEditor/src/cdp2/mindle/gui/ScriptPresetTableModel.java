@@ -103,6 +103,8 @@ public class ScriptPresetTableModel extends AbstractTableModel {
 	
 	public void setData(List<ScriptPresetGroupTable> data, int row) {
 		this.data.get(row).setGroup(data);
+		this.data.get(row).setData(data.toString());
+		fireTableDataChanged();
 	}
 	
 	public List<ScriptPresetTable> getData() {

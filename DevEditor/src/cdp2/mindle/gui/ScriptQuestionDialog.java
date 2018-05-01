@@ -2,6 +2,7 @@ package cdp2.mindle.gui;
 
 import javax.swing.JDialog;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultCellEditor;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.UIManager;
 import javax.swing.JPanel;
 import javax.swing.JLayeredPane;
 
@@ -27,9 +29,11 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import cdp2.mindle.data.ExtensionInformation;
 import cdp2.mindle.data.Script;
+import cdp2.mindle.data.ScriptPresetGroupTable;
 import cdp2.mindle.data.ScriptQuestion;
 import cdp2.mindle.data.ScriptQuestionTable;
 
@@ -54,11 +58,15 @@ public class ScriptQuestionDialog extends JDialog{
 	
 	private int curMethod = 0;
 	
-	final ScriptQuestionTableModel tableModel = new ScriptQuestionTableModel();
+	private ScriptQuestionTableModel tableModel = new ScriptQuestionTableModel();
 	
-	public ScriptQuestionDialog() {
+	private ScriptPanel mainPanel;
+	
+	public ScriptQuestionDialog(ScriptPanel mainPanel) {
 		
 		setTitle("질문");
+		
+		this.mainPanel = mainPanel;
 		
 		setBounds(100, 100, 450, 536);
 		
@@ -186,9 +194,13 @@ public class ScriptQuestionDialog extends JDialog{
 		table.getColumnModel().getColumn(0).setMaxWidth(40);
 		table.getColumnModel().getColumn(1).setResizable(false);
 		table.getColumnModel().getColumn(1).setPreferredWidth(100);
-		table.getColumnModel().getColumn(1).setMaxWidth(10000000);
+		table.getColumnModel().getColumn(1).setMaxWidth(60);
 		table.getColumnModel().getColumn(2).setPreferredWidth(40);
 		table.getColumnModel().getColumn(2).setMaxWidth(1000);
+		table.getColumnModel().getColumn(3).setPreferredWidth(40);
+		table.getColumnModel().getColumn(3).setMaxWidth(50);
+		table.getColumn("문항").setCellRenderer(new ScriptQuestionButtonRenderer());
+        table.getColumn("문항").setCellEditor(new ScriptQuestionButtonEditor(new JCheckBox(), tableModel));
 		table.setFont(new Font("Gulim", Font.PLAIN, 15));
 		scrollPane.setViewportView(table);
 		
@@ -397,22 +409,23 @@ public class ScriptQuestionDialog extends JDialog{
 		confirmBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String id = input_ID.getText();
-				String data = input_Data.getText();
+				String data2 = input_Data.getText();
 				Script script = new Script();
 				script.setCommand("질문");
 				
 				ScriptQuestion scriptQuestion = new ScriptQuestion();
 				scriptQuestion.setCurMethod(curMethod);     // 0 : 직접제공, 1 : 프리셋, 2 : 주관식
 				scriptQuestion.setId(id);
-				scriptQuestion.setQuestion(data);
+				scriptQuestion.setQuestion(data2);
 				
 				switch(curMethod) {
 				case 0 : 
 					String minAns = input_MinAns.getText();
 					String maxAns = input_MaxAns.getText();
 					scriptQuestion.setMinAns(Integer.parseInt(minAns));
-					scriptQuestion.setMaxAns(Integer.parseInt(maxAns));
+					scriptQuestion.setMaxAns(Integer.parseInt(maxAns));		
 					scriptQuestion.setCustom(tableModel.getData());
+					
 					break;
 				case 1 :
 					String presetId = input_PresetID.getText();
@@ -432,7 +445,7 @@ public class ScriptQuestionDialog extends JDialog{
 				   
 				script.setObject(scriptQuestion);
 				
-				ScriptPanel.addRow(script);
+				mainPanel.addRow(script);
 				
 				dispose();
 			}
@@ -441,6 +454,88 @@ public class ScriptQuestionDialog extends JDialog{
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setVisible(true);
 	}
+}
+
+class ScriptQuestionButtonRenderer extends JButton implements TableCellRenderer {
+
+    public ScriptQuestionButtonRenderer() {
+        setOpaque(true);
+    }
+
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value,
+            boolean isSelected, boolean hasFocus, int row, int column) {
+        if (isSelected) {
+            setForeground(table.getSelectionForeground());
+            setBackground(table.getSelectionBackground());
+        } else {
+            setForeground(table.getForeground());
+            setBackground(UIManager.getColor("Button.background"));
+        }
+        setText("+");
+        return this;
+    }
+}
+
+class ScriptQuestionButtonEditor extends DefaultCellEditor {
+
+    protected JButton button;
+    private String label;
+    private boolean isPushed;
+    private int row;
+    
+    private ScriptQuestionTableModel tableModel;
+    
+    public ScriptQuestionButtonEditor(JCheckBox checkBox, ScriptQuestionTableModel tableModel) {
+        super(checkBox);
+        
+        this.tableModel = tableModel;
+        
+        button = new JButton();
+        button.setOpaque(true);
+        button.setText("+");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                fireEditingStopped();
+            }
+        });
+    }
+
+    @Override
+    public Component getTableCellEditorComponent(JTable table, Object value,
+            boolean isSelected, int row, int column) {
+        if (isSelected) {
+            button.setForeground(table.getSelectionForeground());
+            button.setBackground(table.getSelectionBackground());
+        } else {
+            button.setForeground(table.getForeground());
+            button.setBackground(table.getBackground());
+        }
+        label = "+";
+        button.setText(label);
+        this.row = row;
+        isPushed = true;
+        return button;
+    }
+
+    @Override
+    public Object getCellEditorValue() {
+        if (isPushed) {
+//            JOptionPane.showMessageDialog(button, label + ": Ouch!");
+    		ScriptPresetGroupDialog dialog = new ScriptPresetGroupDialog(row, 2);
+    		dialog.setQuestionTable(tableModel);
+        	dialog.setLocationRelativeTo(null);
+        }
+        isPushed = false;
+        return label;
+    }
+
+    @Override
+    public boolean stopCellEditing() {
+        isPushed = false;
+        return super.stopCellEditing();
+    }
 }
 
 

@@ -38,7 +38,6 @@ public class ScriptPresetTable {
 		String result = "";
 		
 		result += "데이터 : " + data + "\n";
-		result += " 그룹 : " + group.toString() + "\n";
 		
 		return result;
 	}

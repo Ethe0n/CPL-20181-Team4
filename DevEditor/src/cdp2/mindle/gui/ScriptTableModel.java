@@ -12,7 +12,7 @@ public class ScriptTableModel extends AbstractTableModel {
 	
 	private List<Script> data;
 	private List<String> columnNames;
-	boolean[] columnEditables = new boolean[] { false, true, true, true };
+	boolean[] columnEditables = new boolean[] { false, true, true, true, true, true };
 
 	public ScriptTableModel() {
 		data = new ArrayList<Script>();
@@ -76,6 +76,24 @@ public class ScriptTableModel extends AbstractTableModel {
 		data.remove(row);
 		fireTableDataChanged();
 	}
+	
+	public void upperRow(int row) {
+		if(row == 0) return;
+		Script temp = new Script();
+		temp = data.get(row);
+		data.set(row, data.get(row - 1));
+		data.set(row - 1, temp);
+		fireTableDataChanged();
+	}
+	
+	public void lowerRow(int row) {
+		if(row == data.size() - 1) return; 
+		Script temp = new Script();
+		temp = data.get(row);
+		data.set(row, data.get(row + 1));
+		data.set(row + 1, temp);
+		fireTableDataChanged();
+	}
 
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
@@ -103,6 +121,8 @@ public class ScriptTableModel extends AbstractTableModel {
 		names.add("No.");
 		names.add("명령어");
 		names.add("데이터");
+		names.add("위로");
+		names.add("아래로");
 		names.add("삭제");
 
 		return names;

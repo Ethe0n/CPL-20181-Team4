@@ -26,9 +26,13 @@ public class ScriptNoticeDialog extends JDialog{
 	private JTextField input_ID;
 	private JTextField input_Notice;
 	
-	public ScriptNoticeDialog() {
+	private ScriptPanel panel;
+	
+	public ScriptNoticeDialog(ScriptPanel panel) {
 		
 		setTitle("안내문");
+		
+		this.panel = panel;
 		
 		JLabel lblId = new JLabel("ID");
 		
@@ -55,7 +59,7 @@ public class ScriptNoticeDialog extends JDialog{
 				scriptNotice.setNotice(notice);
 				
 				script.setObject(scriptNotice);
-				ScriptPanel.addRow(script);
+				panel.addRow(script);
 				
 				dispose();
 			}

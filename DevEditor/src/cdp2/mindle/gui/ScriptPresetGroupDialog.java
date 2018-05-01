@@ -36,11 +36,18 @@ public class ScriptPresetGroupDialog extends JDialog {
 	private JTable table;
 	private List<ScriptPresetGroupTable> data;
 	private int curRow;
+	
+	private ScriptPresetTableModel presetTable;
+	private ScriptQuestionTableModel questionTable;
+	
+	private int flag; // 1 : preset dialog     2 : question dialog
 	/**
 	 * Create the dialog.
 	 */
-	public ScriptPresetGroupDialog(int row) {
+	public ScriptPresetGroupDialog(int row, int flag) {
 		this.curRow = row;
+		this.flag = flag;
+		
 		setTitle("프리셋 그룹");
 		
 		setBounds(100, 100, 450, 300);
@@ -120,6 +127,16 @@ public class ScriptPresetGroupDialog extends JDialog {
 		confirmBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				data = tableModel.getData();
+				
+				switch(flag) {
+				case 1 : 
+					presetTable.setData(data, curRow);	
+					break;  // preset dialog
+				case 2 : 
+					questionTable.setData(data, curRow);
+					break;  // question dialog
+				}
+				
 				dispose();
 			}
 		});
@@ -129,12 +146,11 @@ public class ScriptPresetGroupDialog extends JDialog {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setVisible(true);
 	}
-	
-	public List<ScriptPresetGroupTable> getData() {
-		return data;
+	public void setPresetTable(ScriptPresetTableModel table) {
+		this.presetTable = table;
 	}
 	
-	public int getRow() {
-		return curRow;
+	public void setQuestionTable(ScriptQuestionTableModel table) {
+		this.questionTable = table;
 	}
 }

@@ -36,15 +36,18 @@ public class ScriptPresetDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private final ScriptPresetTableModel tableModel = new ScriptPresetTableModel();
-	private static ScriptPresetGroupDialog dialog; 
 	private JTextField input_ID;
 	private JTextField input_MinAns;
 	private JTextField input_MaxAns;
 	private JTable table;
 
-	public ScriptPresetDialog() {
+	private ScriptPanel panel;
+	
+	public ScriptPresetDialog(ScriptPanel panel) {
 		
 		setTitle("프리셋");
+		
+		this.panel = panel;
 		
 		setBounds(100, 100, 450, 365);
 		getContentPane().setLayout(new BorderLayout());
@@ -161,7 +164,7 @@ public class ScriptPresetDialog extends JDialog {
 		table.getColumnModel().getColumn(3).setPreferredWidth(50);
 		table.getColumnModel().getColumn(3).setMaxWidth(50);
 		table.getColumn("문항").setCellRenderer(new ScriptPresetButtonRenderer());
-        table.getColumn("문항").setCellEditor(new ScriptPresetButtonEditor(new JCheckBox()));
+        table.getColumn("문항").setCellEditor(new ScriptPresetButtonEditor(new JCheckBox(), tableModel));
 		table.setFont(new Font("Gulim", Font.PLAIN, 15));
 		
 		
@@ -178,16 +181,13 @@ public class ScriptPresetDialog extends JDialog {
 				scriptPreset.setId(id);
 				scriptPreset.setMinAns(minAns);
 				scriptPreset.setMaxAns(maxAns);
-				
-				
-				tableModel.setData(dialog.getData(),dialog.getRow());
 			
 				scriptPreset.setPresetTable(tableModel.getData());
 				
 				
 				script.setObject(scriptPreset);
 				
-				ScriptPanel.addRow(script);
+				panel.addRow(script);
 				
 				dispose();
 			}
@@ -199,15 +199,10 @@ public class ScriptPresetDialog extends JDialog {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setVisible(true);
 	}
-	
-	public static void callGroupDialog(int row) {
-		dialog = new ScriptPresetGroupDialog(row);
-    	dialog.setLocationRelativeTo(null);
-	}
 }
 
 class ScriptPresetButtonRenderer extends JButton implements TableCellRenderer {
-
+	
     public ScriptPresetButtonRenderer() {
         setOpaque(true);
     }
@@ -222,7 +217,7 @@ class ScriptPresetButtonRenderer extends JButton implements TableCellRenderer {
             setForeground(table.getForeground());
             setBackground(UIManager.getColor("Button.background"));
         }
-        setText((value == null) ? "+" : value.toString());
+        setText("+");
         return this;
     }
 }
@@ -234,8 +229,12 @@ class ScriptPresetButtonEditor extends DefaultCellEditor {
     private boolean isPushed;
     private int row;
     
-    public ScriptPresetButtonEditor(JCheckBox checkBox) {
+    private ScriptPresetTableModel tableModel;
+    
+    public ScriptPresetButtonEditor(JCheckBox checkBox, ScriptPresetTableModel tableModel) {
         super(checkBox);
+        this.tableModel = tableModel;
+        
         button = new JButton();
         button.setOpaque(true);
         button.setText("+");
@@ -257,7 +256,7 @@ class ScriptPresetButtonEditor extends DefaultCellEditor {
             button.setForeground(table.getForeground());
             button.setBackground(table.getBackground());
         }
-        label = (value == null) ? "+" : value.toString();
+        label =  "+";
         button.setText(label);
         this.row = row;
         isPushed = true;
@@ -268,7 +267,9 @@ class ScriptPresetButtonEditor extends DefaultCellEditor {
     public Object getCellEditorValue() {
         if (isPushed) {
 //            JOptionPane.showMessageDialog(button, label + ": Ouch!");
-        	ScriptPresetDialog.callGroupDialog(row);
+        	ScriptPresetGroupDialog dialog = new ScriptPresetGroupDialog(row, 1);
+    		dialog.setPresetTable(tableModel);
+        	dialog.setLocationRelativeTo(null);
         }
         isPushed = false;
         return label;

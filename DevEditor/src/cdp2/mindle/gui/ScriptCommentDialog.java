@@ -25,9 +25,14 @@ public class ScriptCommentDialog extends JDialog{
 	
 	private final JPanel contentPanel = new JPanel();
 	
+	private ScriptPanel panel;
+	
 	private JTextField textField;
-	public ScriptCommentDialog() {
+	public ScriptCommentDialog(ScriptPanel panel) {
 		setTitle("주석");
+		
+		this.panel = panel;
+		
 		textField = new JTextField();
 		textField.setColumns(10);
 		
@@ -46,7 +51,7 @@ public class ScriptCommentDialog extends JDialog{
 				ScriptComment scriptcomment = new ScriptComment();
 				scriptcomment.setData(comment);
 				script.setObject(scriptcomment);
-				ScriptPanel.addRow(script);
+				panel.addRow(script);
 				
 				dispose();
 			}

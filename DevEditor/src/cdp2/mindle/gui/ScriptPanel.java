@@ -28,10 +28,13 @@ import cdp2.mindle.data.Script;
 public class ScriptPanel extends JPanel
 {
 	private JTable table_1;
-	final static ScriptTableModel tableModel = new ScriptTableModel();
+	private ScriptTableModel tableModel = new ScriptTableModel();
+	
+	private ScriptPanel thisPanel;
 	
 	public ScriptPanel()
 	{
+		thisPanel = this;
 		setBorder(new LineBorder(Color.GRAY));
 
 		setBackground(new Color(250, 235, 215));
@@ -40,7 +43,7 @@ public class ScriptPanel extends JPanel
 		noticeBtn.setFont(new Font("Gulim", Font.PLAIN, 15));
 		noticeBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ScriptNoticeDialog dialog = new ScriptNoticeDialog();
+				ScriptNoticeDialog dialog = new ScriptNoticeDialog(thisPanel);
 //				AnalysisPopupDialog dialog = new AnalysisPopupDialog();
 				dialog.setLocationRelativeTo(null);
 			}
@@ -50,7 +53,7 @@ public class ScriptPanel extends JPanel
 		questionBtn.setFont(new Font("굴림", Font.PLAIN, 15));
 		questionBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ScriptQuestionDialog dialog = new ScriptQuestionDialog();
+				ScriptQuestionDialog dialog = new ScriptQuestionDialog(thisPanel);
 				dialog.setLocationRelativeTo(null);
 			}
 		});
@@ -59,7 +62,7 @@ public class ScriptPanel extends JPanel
 		presetBtn.setFont(new Font("굴림", Font.PLAIN, 15));
 		presetBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ScriptPresetDialog dialog = new ScriptPresetDialog();
+				ScriptPresetDialog dialog = new ScriptPresetDialog(thisPanel);
 				dialog.setLocationRelativeTo(null);
 			}
 		});
@@ -68,7 +71,7 @@ public class ScriptPanel extends JPanel
 		commentBtn.setFont(new Font("굴림", Font.PLAIN, 15));
 		commentBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ScriptCommentDialog dialog = new ScriptCommentDialog();
+				ScriptCommentDialog dialog = new ScriptCommentDialog(thisPanel);
 				dialog.setLocationRelativeTo(null);
 			}
 		});
@@ -121,20 +124,28 @@ public class ScriptPanel extends JPanel
 		table_1.getColumnModel().getColumn(1).setPreferredWidth(60);
 		table_1.getColumnModel().getColumn(1).setMaxWidth(60);
 		table_1.getColumnModel().getColumn(2).setPreferredWidth(297);
-		table_1.getColumnModel().getColumn(3).setPreferredWidth(40);
+		table_1.getColumnModel().getColumn(3).setPreferredWidth(60);
 		table_1.getColumnModel().getColumn(3).setMaxWidth(60);
+		table_1.getColumnModel().getColumn(4).setPreferredWidth(60);
+		table_1.getColumnModel().getColumn(4).setMaxWidth(60);
+		table_1.getColumnModel().getColumn(5).setPreferredWidth(60);
+		table_1.getColumnModel().getColumn(5).setMaxWidth(60);
 		table_1.getColumn("삭제").setCellRenderer(new ScriptButtonRenderer());
-        table_1.getColumn("삭제").setCellEditor(new ScriptButtonEditor(new JCheckBox()));
+        table_1.getColumn("삭제").setCellEditor(new ScriptButtonEditor(new JCheckBox(), tableModel));
+        table_1.getColumn("위로").setCellRenderer(new ScriptButtonRenderer());
+        table_1.getColumn("위로").setCellEditor(new ScriptButtonEditor(new JCheckBox(), tableModel));
+        table_1.getColumn("아래로").setCellRenderer(new ScriptButtonRenderer());
+        table_1.getColumn("아래로").setCellEditor(new ScriptButtonEditor(new JCheckBox(), tableModel));
 		
 		scrollPane.setViewportView(table_1);
 		setLayout(groupLayout);
 	}
 	
-	public static void deleteRow(int row) {
+	public void deleteRow(int row) {
 		tableModel.deleteRow(row);
 	}
 	
-	public static void addRow(Script scInfo) {
+	public void addRow(Script scInfo) {
 		tableModel.addRow(scInfo);
 	}
 }
@@ -155,7 +166,12 @@ class ScriptButtonRenderer extends JButton implements TableCellRenderer {
             setForeground(table.getForeground());
             setBackground(UIManager.getColor("Button.background"));
         }
-        setText((value == null) ? "x" : value.toString());
+        
+        switch(column) {
+        case 3 : setText((value == null) ? "↑" : value.toString()); break;
+        case 4 : setText((value == null) ? "↓" : value.toString()); break;
+        case 5 : setText((value == null) ? "x" : value.toString()); break;
+        }
         return this;
     }
 }
@@ -166,12 +182,24 @@ class ScriptButtonEditor extends DefaultCellEditor {
     private String label;
     private boolean isPushed;
     private int row;
+    private int col;
+    
+    private ScriptTableModel tableModel;
 
-    public ScriptButtonEditor(JCheckBox checkBox) {
+    public ScriptButtonEditor(JCheckBox checkBox, ScriptTableModel tableModel) {
         super(checkBox);
+        
+        this.tableModel = tableModel;
+        
         button = new JButton();
         button.setOpaque(true);
-        button.setText("x");
+        
+        switch(col) {
+        case 3 : button.setText("↑"); break;
+        case 4 : button.setText("↓"); break;
+        case 5 : button.setText("x"); break;
+        }
+        
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -190,9 +218,15 @@ class ScriptButtonEditor extends DefaultCellEditor {
             button.setForeground(table.getForeground());
             button.setBackground(table.getBackground());
         }
-        label = (value == null) ? "x" : value.toString();
+        
+        switch(column) {
+        case 3 : label = ((value == null) ? "↑" : value.toString()); break;
+        case 4 : label = ((value == null) ? "↓" : value.toString()); break;
+        case 5 : label = ((value == null) ? "x" : value.toString()); break;
+        }
         button.setText(label);
         this.row = row;
+        this.col = column;
         isPushed = true;
         return button;
     }
@@ -201,7 +235,18 @@ class ScriptButtonEditor extends DefaultCellEditor {
     public Object getCellEditorValue() {
         if (isPushed) {
 //            JOptionPane.showMessageDialog(button, label + ": Ouch!");
-        	ScriptPanel.deleteRow(row);
+        	switch(col) {
+        	case 3 : 
+        		tableModel.upperRow(row);
+        		break;
+        	case 4 : 
+        		tableModel.lowerRow(row);
+        		break;
+        	case 5 :
+        		tableModel.deleteRow(row);
+        		break;
+        	}
+        	
         }
         isPushed = false;
         return label;
