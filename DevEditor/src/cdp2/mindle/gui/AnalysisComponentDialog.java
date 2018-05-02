@@ -30,8 +30,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.TableCellRenderer;
 
 import cdp2.mindle.core.CoreInformation;
@@ -190,19 +190,32 @@ public class AnalysisComponentDialog extends JDialog {
 			label.setFont(new Font("굴림", Font.BOLD, 15));
 			JLabel lblNewLabel_1 = new JLabel("수식");
 			lblNewLabel_1.setFont(new Font("굴림", Font.BOLD, 15));
+
+			// 헤더 수식 콤보박스
+			JComboBox[] equationComboBox = new JComboBox[9];
+			for (int i = 0; i < 8; i += 2) {
+				equationComboBox[i] = new JComboBox(variableList);
+				equationComboBox[i + 1] = new JComboBox(plusMinusCombo);
+			}
+			equationComboBox[8] = new JComboBox(variableList);
+			for (int i = 3; i < 9; i++) {
+				equationComboBox[i].setVisible(false);
+			}
 			
 			JSpinner spinner = new JSpinner();
 			spinner.setModel(new SpinnerNumberModel(2, 2, 5, 1));
-			
-			JComboBox comboBox = new JComboBox(variableList);
-			JComboBox comboBox_1 = new JComboBox(plusMinusCombo);
-			JComboBox comboBox_2 = new JComboBox(variableList);
-			JComboBox comboBox_3 = new JComboBox(plusMinusCombo);
-			JComboBox comboBox_4 = new JComboBox(variableList);
-			JComboBox comboBox_5 = new JComboBox(plusMinusCombo);
-			JComboBox comboBox_6 = new JComboBox(variableList);
-			JComboBox comboBox_7 = new JComboBox(plusMinusCombo);
-			JComboBox comboBox_8 = new JComboBox(variableList);
+			spinner.addChangeListener(new ChangeListener() {
+				@Override
+				public void stateChanged(ChangeEvent e) {
+					int n = Integer.parseInt(spinner.getValue().toString());
+					for (int i = 0; i < 2 * n - 1; i++) {
+						equationComboBox[i].setVisible(true);
+					}
+					for (int i = 2 * n - 1; i < 9; i++) {
+						equationComboBox[i].setVisible(false);
+					}
+				}
+			});
 			
 			GroupLayout gl_headerPanel = new GroupLayout(headerPanel);
 			gl_headerPanel.setHorizontalGroup(
@@ -215,23 +228,23 @@ public class AnalysisComponentDialog extends JDialog {
 						.addPreferredGap(ComponentPlacement.UNRELATED)
 						.addGroup(gl_headerPanel.createParallelGroup(Alignment.LEADING)
 							.addGroup(gl_headerPanel.createSequentialGroup()
-								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
+								.addComponent(equationComboBox[0], GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(equationComboBox[1], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+								.addComponent(equationComboBox[2], GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addComponent(comboBox_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(equationComboBox[3], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(comboBox_4, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+								.addComponent(equationComboBox[4], GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(comboBox_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(equationComboBox[5], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(comboBox_6, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
+								.addComponent(equationComboBox[6], GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addComponent(comboBox_7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(equationComboBox[7], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(comboBox_8, GroupLayout.PREFERRED_SIZE, 74, GroupLayout.PREFERRED_SIZE))
+								.addComponent(equationComboBox[8], GroupLayout.PREFERRED_SIZE, 74, GroupLayout.PREFERRED_SIZE))
 							.addComponent(spinner, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE))
 						.addGap(39))
 			);
@@ -244,16 +257,16 @@ public class AnalysisComponentDialog extends JDialog {
 							.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGap(27)
 						.addGroup(gl_headerPanel.createParallelGroup(Alignment.BASELINE)
-							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(equationComboBox[0], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addComponent(lblNewLabel_1)
-							.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(comboBox_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(comboBox_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(comboBox_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(comboBox_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(comboBox_7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(comboBox_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(equationComboBox[1], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(equationComboBox[2], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(equationComboBox[3], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(equationComboBox[4], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(equationComboBox[5], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(equationComboBox[6], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(equationComboBox[7], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(equationComboBox[8], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addContainerGap(37, Short.MAX_VALUE))
 			);
 			headerPanel.setLayout(gl_headerPanel);
@@ -267,6 +280,12 @@ public class AnalysisComponentDialog extends JDialog {
 				JButton okButton = new JButton("확인");
 				okButton.setFont(new Font("굴림", Font.PLAIN, 12));
 				okButton.setActionCommand("OK");
+				okButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
@@ -274,6 +293,12 @@ public class AnalysisComponentDialog extends JDialog {
 				JButton cancelButton = new JButton("취소");
 				cancelButton.setFont(new Font("굴림", Font.PLAIN, 12));
 				cancelButton.setActionCommand("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				buttonPane.add(cancelButton);
 			}
 		}
@@ -290,13 +315,6 @@ class ComboBoxRenderer extends JComboBox implements TableCellRenderer {
 
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
-		if (isSelected) {
-			setForeground(table.getSelectionForeground());
-			super.setBackground(table.getSelectionBackground());
-		} else {
-			setForeground(table.getForeground());
-			setBackground(table.getBackground());
-		}
 		setSelectedItem(value);
 		return this;
 	}
