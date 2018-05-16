@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import cdp2.mindle.core.CoreManager;
 import cdp2.mindle.data.Analysis;
 import cdp2.mindle.data.AnalysisComponent;
 
@@ -12,7 +13,7 @@ public class AnalysisTableModel extends AbstractTableModel
 {
 	private List<Analysis> data;
 	private List<String> columnNames;
-	boolean[] columnEditables = new boolean[] { false, true, true, true, true, true };
+	boolean[] columnEditables = new boolean[] { false, true, false, true, true, true };
 	
 	public AnalysisTableModel() {
 		data = new ArrayList<Analysis>();
@@ -65,7 +66,7 @@ public class AnalysisTableModel extends AbstractTableModel
 		case 1:
 			return data.get(rowIndex).getNumber();
 		case 2:
-			return data.get(rowIndex).getName();
+			return data.get(rowIndex).toString();
 		default :
 			return null;
 		}
@@ -104,6 +105,11 @@ public class AnalysisTableModel extends AbstractTableModel
 		}
 	}
 
+	public void update()
+	{
+		CoreManager.getInstance().setAnalysis(data);
+	}
+	
 	private ArrayList<String> createColumnNames() {
 		ArrayList<String> names = new ArrayList<String>();
 		

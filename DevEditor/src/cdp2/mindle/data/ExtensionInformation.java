@@ -39,4 +39,9 @@ public class ExtensionInformation {
 		
 		return result;
 	}
+	
+	public byte[] toBinary()
+	{
+		return null;
+	}
 }

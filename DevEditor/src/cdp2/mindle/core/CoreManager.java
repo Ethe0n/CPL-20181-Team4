@@ -3,6 +3,8 @@ package cdp2.mindle.core;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
+import cdp2.mindle.data.Analysis;
+import cdp2.mindle.data.AnalysisComponent;
 import cdp2.mindle.data.ExtensionInformation;
 import cdp2.mindle.manager.AnalysisManager;
 import cdp2.mindle.manager.FileManager;
@@ -93,5 +95,13 @@ public class CoreManager {
 	
 	public void setInformationExtension(List<ExtensionInformation> extension) {
 		informationManager.setExtension(extension);
+	}
+	
+	public void setAnalysisComponent(int index, List<AnalysisComponent> components) {
+		analysisManager.setAnalysisComponentList(index, components);
+	}
+	
+	public void setAnalysis(List<Analysis> analysis) {
+		analysisManager.setAnalysisList(analysis);
 	}
 }

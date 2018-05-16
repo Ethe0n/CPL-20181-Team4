@@ -23,9 +23,9 @@ public class Analysis {
 		numberOfVariable = 0;
 	}
 	
-	public String toBinary()
+	public byte[] toBinary()
 	{
-		return "";
+		return null;
 	}
 	
 	public void parse(String binary)
@@ -47,5 +47,15 @@ public class Analysis {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public void setAnalysisComponentList(List<AnalysisComponent> list) {
+		componentList = list;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return String.format("%s", componentList.toString());
 	}
 }

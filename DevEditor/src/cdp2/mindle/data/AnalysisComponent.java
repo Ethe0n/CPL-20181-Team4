@@ -44,4 +44,15 @@ public class AnalysisComponent
 	public void setFeedback(String feedback) {
 		this.feedback = feedback;
 	}
+	
+	@Override
+	public String toString()
+	{
+		return String.format("%d%s일때 %s", getRefValue(), getOperator(), getStatement());
+	}
+	
+	public byte[] toBinary()
+	{
+		return null;
+	}
 }

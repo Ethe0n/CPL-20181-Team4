@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 
+import cdp2.mindle.core.CoreManager;
 import cdp2.mindle.data.AnalysisComponent;
 
 public class AnalysisComponentTableModel extends AbstractTableModel
@@ -90,7 +91,7 @@ public class AnalysisComponentTableModel extends AbstractTableModel
 
 		fireTableDataChanged();
 	}
-
+	
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 		switch (columnIndex) {
@@ -98,7 +99,6 @@ public class AnalysisComponentTableModel extends AbstractTableModel
 			data.get(rowIndex).setRefValue(aValue != null ? (int) aValue : 0);
 			break;
 		case 2:
-			data.get(rowIndex).setOperator(aValue != null ? aValue.toString() : null);
 			break;
 		case 3:
 			data.get(rowIndex).setStatement(aValue != null ? aValue.toString() : null);
@@ -107,6 +107,17 @@ public class AnalysisComponentTableModel extends AbstractTableModel
 			data.get(rowIndex).setFeedback(aValue != null ? aValue.toString() : null);
 		default:
 			break;
+		}
+	}
+	
+	public void setOperation(int rowIndex, String op)
+	{
+		if (rowIndex != data.size() - 1) {
+			data.get(rowIndex).setOperator(op);
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "마지막 행의 비교열은 바꿀 수 없습니다!", "Warning",
+			        JOptionPane.WARNING_MESSAGE);
 		}
 	}
 	
@@ -122,4 +133,9 @@ public class AnalysisComponentTableModel extends AbstractTableModel
 		
 		return names;
 	}	
+	
+	public void update(int index)
+	{
+		CoreManager.getInstance().setAnalysisComponent(index, data);
+	}
 }

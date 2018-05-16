@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.swing.AbstractCellEditor;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultCellEditor;
 import javax.swing.GroupLayout;
@@ -32,6 +33,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import cdp2.mindle.core.CoreInformation;
@@ -48,11 +50,14 @@ public class AnalysisComponentDialog extends JDialog {
 	private String[] variableList = new String[] {
 			"a", "b", "c"
 	};
+	private AnalysisComponentTableModel model;
+	private int rowIndex;
 	
 	/**
 	 * Create the dialog.
 	 */
-	public AnalysisComponentDialog() {
+	public AnalysisComponentDialog(int rowIndex) {
+		this.rowIndex = rowIndex;
 		setTitle("평가 항목 편집");
 		setBounds(100, 100, 674, 605);
 		getContentPane().setLayout(new BorderLayout());
@@ -103,7 +108,7 @@ public class AnalysisComponentDialog extends JDialog {
 			
 			JScrollPane scrollPane_1 = new JScrollPane();
 			
-			AnalysisComponentTableModel model = new AnalysisComponentTableModel();
+			model = new AnalysisComponentTableModel();
 			table = new JTable();
 			table.setBorder(new LineBorder(Color.GRAY));
 			table.setModel(model);
@@ -283,6 +288,7 @@ public class AnalysisComponentDialog extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						model.update(rowIndex);
 						dispose();
 					}
 				});
@@ -320,13 +326,60 @@ class ComboBoxRenderer extends JComboBox implements TableCellRenderer {
 	}
 }
 
-class ComboBoxEditor extends DefaultCellEditor {
+class ComboBoxEditor extends AbstractCellEditor implements TableCellEditor, ActionListener
+{
 	private AnalysisComponentTableModel model;
+	String selectedString;
+	int selectedRow;
+	String[] items;
+	boolean isPushed;
 	
 	ComboBoxEditor(String[] items, AnalysisComponentTableModel model) {
-        super(new JComboBox(items));
+		this.items = items;
+		this.model = model;
+	}
+
+	@Override
+	public Object getCellEditorValue() {
+		if (isPushed) {
+			model.setOperation(selectedRow, selectedString);	
+		}
+		isPushed = false;
+		return this.selectedString;
+	}
+	
+	@Override
+    public Component getTableCellEditorComponent(JTable table, Object value,
+            boolean isSelected, int row, int column) {
+		this.selectedString = (String) value;
+        this.selectedRow = row;
         
-        this.model = model;
+        JComboBox<String> comboItems = new JComboBox<String>(items);
+         
+        comboItems.setSelectedItem(selectedString);
+        comboItems.addActionListener(this);
+         
+        if (isSelected) {
+            comboItems.setBackground(table.getSelectionBackground());
+        } else {
+            comboItems.setBackground(table.getSelectionForeground());
+        }
+         
+        isPushed = true;
+        return comboItems;
+    }
+ 
+    @Override
+    public void actionPerformed(ActionEvent event) {
+        JComboBox<String> comboCountry = (JComboBox<String>) event.getSource();
+        this.selectedString = (String) comboCountry.getSelectedItem();
+        fireEditingStopped();
+    }
+    
+    @Override
+    public boolean stopCellEditing() {
+    	isPushed = false;
+    	return super.stopCellEditing();
     }
 }
 

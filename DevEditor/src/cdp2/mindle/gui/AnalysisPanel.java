@@ -62,6 +62,7 @@ public class AnalysisPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				model.addRow(new Analysis());
+				model.update();
 			}
 		});
 		GroupLayout groupLayout = new GroupLayout(this);
@@ -180,7 +181,8 @@ class ButtonEditor extends DefaultCellEditor {
     protected JButton button;
     private String label;
     private boolean isPushed;
-
+    private int rowIdx;
+    
     public ButtonEditor(JCheckBox checkBox) {
         super(checkBox);
         button = new JButton();
@@ -211,13 +213,14 @@ class ButtonEditor extends DefaultCellEditor {
         label = (value == null) ? "" : value.toString();
         button.setText(label);
         isPushed = true;
+        rowIdx = row;
         return button;
     }
 
     @Override
     public Object getCellEditorValue() {
         if (isPushed) {
-        	AnalysisComponentDialog dialog = new AnalysisComponentDialog();
+        	AnalysisComponentDialog dialog = new AnalysisComponentDialog(rowIdx);
         	dialog.setLocationRelativeTo(null);
         }
         isPushed = false;
