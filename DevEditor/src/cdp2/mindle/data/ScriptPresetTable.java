@@ -3,6 +3,8 @@ package cdp2.mindle.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import cdp2.mindle.manager.SmartBuffer;
+
 public class ScriptPresetTable {
 	private String data;
 	private List<ScriptPresetGroupTable> group;
@@ -41,5 +43,19 @@ public class ScriptPresetTable {
 		result += "데이터 : " + data + "\n";
 		
 		return result;
+	}
+	
+	public String toBinary()
+	{
+		String bits = "";
+		
+		bits += SmartBuffer.intToBinaryArray(0, 12);
+		bits += SmartBuffer.intToBinaryArray(group.size(), 4);
+		for (ScriptPresetGroupTable iter : group) {
+			bits += iter.toBinary();
+		}
+		bits += SmartBuffer.variableStrToBinaryArray(data, 8);
+		
+		return bits;
 	}
 }

@@ -3,6 +3,8 @@ package cdp2.mindle.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import cdp2.mindle.manager.SmartBuffer;
+
 public class ScriptQuestionTable {
 	private String item;
 	private boolean selected;
@@ -40,5 +42,20 @@ public class ScriptQuestionTable {
 		result +=  group.toString() + "\n";
 		
 		return result;
+	}
+	
+	public String toBinary()
+	{
+		String bits = "";
+		
+		bits += SmartBuffer.intToBinaryArray(0, 12);
+		bits += SmartBuffer.intToBinaryArray(group.size(), 4);
+		for (ScriptPresetGroupTable iter : group) {
+			bits += iter.toBinary();
+		}
+
+		bits += SmartBuffer.variableStrToBinaryArray(item, 8);
+		
+		return bits;
 	}
 }

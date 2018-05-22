@@ -3,6 +3,8 @@ package cdp2.mindle.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import cdp2.mindle.manager.SmartBuffer;
+
 public class ScriptPreset extends Script{
 	private String id;
 	private int minAns;
@@ -52,5 +54,19 @@ public class ScriptPreset extends Script{
 		result += " 프리셋 : " + presetTable.toString() + "\n";
 		
 		return result;
+	}
+	
+	@Override
+	public String toBinary()
+	{
+		String bits = super.toBinary();
+		
+		bits += SmartBuffer.intToBinaryArray(Integer.parseInt(id), 6);
+		bits += SmartBuffer.intToBinaryArray(minAns, 4);
+		bits += SmartBuffer.intToBinaryArray(maxAns, 4);
+		bits += SmartBuffer.intToBinaryArray(presetTable.size(), 6);
+		
+		
+		return bits;
 	}
 }

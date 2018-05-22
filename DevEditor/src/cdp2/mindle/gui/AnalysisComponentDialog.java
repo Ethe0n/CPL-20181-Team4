@@ -37,6 +37,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import cdp2.mindle.core.CoreInformation;
+import cdp2.mindle.core.CoreManager;
 import cdp2.mindle.data.AnalysisComponent;
 
 @SuppressWarnings("serial")
@@ -51,13 +52,16 @@ public class AnalysisComponentDialog extends JDialog {
 			"a", "b", "c"
 	};
 	private AnalysisComponentTableModel model;
+	private AnalysisTableModel analysisModel;
 	private int rowIndex;
 	
 	/**
 	 * Create the dialog.
 	 */
-	public AnalysisComponentDialog(int rowIndex) {
+	public AnalysisComponentDialog(AnalysisTableModel analysisModel, int rowIndex) {
 		this.rowIndex = rowIndex;
+		this.analysisModel = analysisModel;
+		
 		setTitle("평가 항목 편집");
 		setBounds(100, 100, 674, 605);
 		getContentPane().setLayout(new BorderLayout());
@@ -90,9 +94,11 @@ public class AnalysisComponentDialog extends JDialog {
 				@Override
 				public void itemStateChanged(ItemEvent e) {
 					if (e.getStateChange() == ItemEvent.SELECTED) {
+						CoreManager.getInstance().setAnalysisHeaderExist(true, rowIndex);
 						headerPanel.setVisible(true);
 					}
 					else {
+						CoreManager.getInstance().setAnalysisHeaderExist(false, rowIndex);
 						headerPanel.setVisible(false);
 					}
 				}
@@ -289,6 +295,7 @@ public class AnalysisComponentDialog extends JDialog {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						model.update(rowIndex);
+						analysisModel.fireTableDataChanged();
 						dispose();
 					}
 				});

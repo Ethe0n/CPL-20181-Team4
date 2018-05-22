@@ -1,5 +1,7 @@
 package cdp2.mindle.data;
 
+import cdp2.mindle.manager.SmartBuffer;
+
 public class ScriptComment extends Script {
 	private String comment;
 	
@@ -21,5 +23,16 @@ public class ScriptComment extends Script {
 		String result;
 		result = "주석 내용 : " + comment;
 		return result;
+	}
+	
+	@Override
+	public String toBinary()
+	{
+		String bits = "";
+		
+		bits += super.toBinary();
+		bits += SmartBuffer.variableStrToBinaryArray(comment, 12);
+		
+		return bits;
 	}
 }

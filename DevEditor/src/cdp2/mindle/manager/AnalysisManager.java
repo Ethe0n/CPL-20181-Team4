@@ -37,4 +37,8 @@ public class AnalysisManager {
 		}
 		
 	}
+	
+	public void setHeaderExist(boolean isExist, int index) {
+		analysisList.get(index).setIsHeaderExist(isExist);
+	}
 }

@@ -3,6 +3,8 @@ package cdp2.mindle.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import cdp2.mindle.manager.SmartBuffer;
+
 public class ScriptQuestion extends Script{
 	private String id;
 	private String question;
@@ -130,6 +132,43 @@ public class ScriptQuestion extends Script{
 		}
 		
 		return result;
+	}
+	
+	@Override
+	public String toBinary()
+	{
+		String bits = super.toBinary();
+		
+		bits += SmartBuffer.variableStrToBinaryArray(id, 12);
+		bits += SmartBuffer.variableStrToBinaryArray(question, 16);
+		bits += SmartBuffer.intToBinaryArray(curMethod, 2);
+		
+		switch (curMethod) {
+		case 0 :
+			bits += SmartBuffer.intToBinaryArray(minAns, 4);
+			bits += SmartBuffer.intToBinaryArray(maxAns, 4);
+			bits += SmartBuffer.intToBinaryArray(custom.size(), 6);
+			for (ScriptQuestionTable iter : custom) {
+				bits += iter.toBinary();
+			}
+			break;
+		case 1 :
+			bits += SmartBuffer.intToBinaryArray(Integer.parseInt(preset_id), 6);
+			if (check_override) {
+				bits += SmartBuffer.intToBinaryArray(1, 8);	
+				bits += SmartBuffer.intToBinaryArray(numAns, 8);
+			}
+			else {
+				bits += SmartBuffer.intToBinaryArray(0, 8);
+			}
+			break;
+		case 2 :
+			bits += SmartBuffer.intToBinaryArray(minLen, 7);
+			bits += SmartBuffer.intToBinaryArray(maxLen, 7);
+			break;
+		}
+		
+		return bits;
 	}
 	
 }

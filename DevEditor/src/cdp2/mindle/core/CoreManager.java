@@ -41,6 +41,9 @@ public class CoreManager {
 	public void parse(String binary)
 	{
 		// cut -> parse(1. info, 2. scr, 3. analy)
+		informationManager.parse(binary);
+		scriptManager.parse(binary);
+		analysisManager.parse(binary);
 	}
 	
 	public void load(String path) {
@@ -57,13 +60,21 @@ public class CoreManager {
 
 	public void save(String path) {
 		try {
-			ByteArrayOutputStream stream = new ByteArrayOutputStream();
-
-			stream.write(CoreInformation.toBinary());
-			stream.write(informationManager.toBinary());
-			fileManager.saveFile(path, stream.toByteArray());
-
-			stream.close();
+			String bits = "";
+			bits += CoreInformation.toBinary();
+			bits += informationManager.toBinary();
+			bits += scriptManager.toBinary();
+			bits += analysisManager.toBinary();
+			
+			byte[] dataBytes = SmartBuffer.binaryStringToByteArray(bits);
+			int sum = 0;
+			for (byte iter : dataBytes) {
+				sum = (sum + iter) % 256;
+			}
+			bits += SmartBuffer.intToBinaryArray(256 - sum, 8);
+			
+			fileManager.saveFile(path, SmartBuffer.binaryStringToByteArray(bits));
+			
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
@@ -103,5 +114,10 @@ public class CoreManager {
 	
 	public void setAnalysis(List<Analysis> analysis) {
 		analysisManager.setAnalysisList(analysis);
+	}
+	
+	public void setAnalysisHeaderExist(boolean isExist, int index)
+	{
+		analysisManager.setHeaderExist(isExist, index);
 	}
 }

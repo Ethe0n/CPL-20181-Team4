@@ -252,7 +252,7 @@ public class ScriptQuestionDialog extends JDialog{
 					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
 					.addContainerGap())
 		);
-		panel.setLayout(gl_panel);
+		panel.setLayout(	gl_panel);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(0, 0, 404, 308);

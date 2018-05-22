@@ -2,6 +2,8 @@ package cdp2.mindle.manager;
 
 import java.nio.charset.Charset;
 
+import javax.print.DocFlavor.STRING;
+
 public class SmartBuffer {
 	private byte[] buffer;
 	private String bits;
@@ -103,7 +105,44 @@ public class SmartBuffer {
 		return sb.toString();
 	}
 	
-	private byte[] binaryStringToByteArray(String s) {
+	public static String intToBinaryArray(int value, int bitSize)
+	{
+		String bits = "";
+		
+		for (int i = 0; i < bitSize; ++i) {
+			bits += (value >> i) & 1;
+		}
+		
+		return bits;
+	}
+	
+	public static String strToBinaryArray(String s)
+	{
+		byte[] sBytes = s.getBytes();
+		int sLength = sBytes.length;
+		String bits = "";
+		
+		for (int i = 0; i < sLength * 8; ++i) {
+			bits += (sBytes[i / 8] >> i) & 1;
+		}
+		
+		return bits;
+	}
+	
+	public static String variableStrToBinaryArray(String s, int bitSize) 
+	{
+		byte[] sBytes = s.getBytes();
+		int sLength = sBytes.length;
+		String bits = "";
+		
+		for (int i = 0; i < bitSize; ++i) {
+			bits += (sLength >> i) & 1;
+		}
+		
+		return bits + strToBinaryArray(s);
+	}
+	
+	public static byte[] binaryStringToByteArray(String s) {
 		int count = s.length() / 8;
 		byte[] b = new byte[count];
 		for (int i = 1; i < count; ++i) {
@@ -113,7 +152,7 @@ public class SmartBuffer {
 		return b;
 	}
 
-	private byte binaryStringToByte(String s) {
+	private static byte binaryStringToByte(String s) {
 		byte ret = 0, total = 0;
 		for (int i = 0; i < 8; ++i) {
 			ret = (s.charAt(7 - i) == '1') ? (byte) (1 << i) : 0;

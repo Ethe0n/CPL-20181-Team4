@@ -1,5 +1,7 @@
 package cdp2.mindle.data;
 
+import cdp2.mindle.manager.SmartBuffer;
+
 public class ExtensionInformation {
 	private String key;
 	private String value;
@@ -40,8 +42,13 @@ public class ExtensionInformation {
 		return result;
 	}
 	
-	public byte[] toBinary()
+	public String toBinary()
 	{
-		return null;
+		String bits = "";
+		
+		bits += SmartBuffer.variableStrToBinaryArray(key, 8);
+		bits += SmartBuffer.variableStrToBinaryArray(value, 16);
+		
+		return bits;
 	}
 }

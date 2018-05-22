@@ -1,11 +1,22 @@
 package cdp2.mindle.data;
 
+import cdp2.mindle.manager.SmartBuffer;
+
 public class AnalysisComponent
 {
 	int refValue;
 	String operator;
 	String statement;
 	String feedback;
+	
+	final static String[] operationList = new String[] {
+			"이상", "이하", "초과", "미만", "나머지 경우"
+	};
+	final static String[] operationBits = new String[] {
+			"00000011", "00000010",
+			"00000001", "00000000",
+			"10000000"
+	};
 	
 	public AnalysisComponent()
 	{
@@ -51,8 +62,21 @@ public class AnalysisComponent
 		return String.format("%d%s일때 %s", getRefValue(), getOperator(), getStatement());
 	}
 	
-	public byte[] toBinary()
+	public String toBinary()
 	{
-		return null;
+		String bits = "";
+		
+		for (int i = 0; i < 5; ++i) {
+			if (operator == operationList[i]) {
+				bits += operationBits[i];
+				break;
+			}
+		}
+		
+		bits += SmartBuffer.variableStrToBinaryArray(statement, 8);
+		bits += SmartBuffer.intToBinaryArray(refValue, 8);
+		bits += SmartBuffer.variableStrToBinaryArray(feedback, 16);
+		
+		return bits;
 	}
 }

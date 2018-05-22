@@ -1,5 +1,7 @@
 package cdp2.mindle.data;
 
+import cdp2.mindle.manager.SmartBuffer;
+
 public class ScriptPresetGroupTable {
 	private String keyName;
 	private String value;
@@ -43,5 +45,14 @@ public class ScriptPresetGroupTable {
 		result += " 변화량 : " + value + "\n";
 		
 		return result;
+	}
+	
+	public String toBinary() {
+		String bits = "";
+		
+		bits += SmartBuffer.intToBinaryArray(Integer.parseInt(keyName), 8);
+		bits += SmartBuffer.intToBinaryArray(Integer.parseInt(value), 8);
+		
+		return bits;
 	}
 }

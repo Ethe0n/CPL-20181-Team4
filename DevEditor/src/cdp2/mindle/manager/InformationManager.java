@@ -14,7 +14,7 @@ public class InformationManager {
 		information = new Information();
 	}
 	
-	public byte[] toBinary() throws IOException
+	public String toBinary() throws IOException
 	{
 		return information.toBinary();
 	}
