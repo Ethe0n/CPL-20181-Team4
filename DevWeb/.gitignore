@@ -1,5 +1,8 @@
 .cache/
 .vscode/
+../.metadata/
+../.recommenders/
+../RemoteSystemsTempFiles/
 
 node_modules/
 bower_components/

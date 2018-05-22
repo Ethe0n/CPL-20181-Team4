@@ -132,7 +132,9 @@ export class MindleCheckup<T = Object>{
   public asking:boolean;
 
   constructor(name:string){
+    debugger;
     this.load(new SmartBuffer(getProjectData(`checkups/${name}.mindle`)));
+    debugger;
   }
   private error(field:string, offset:number):Error{
     return Error(`Invalid field: ${field} at ${offset}`);
