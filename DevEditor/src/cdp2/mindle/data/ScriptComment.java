@@ -28,9 +28,8 @@ public class ScriptComment extends Script {
 	@Override
 	public String toBinary()
 	{
-		String bits = "";
-		
-		bits += super.toBinary();
+		String bits = "0000";
+	
 		bits += SmartBuffer.variableStrToBinaryArray(comment, 12);
 		
 		return bits;

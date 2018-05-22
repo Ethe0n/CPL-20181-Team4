@@ -1,11 +1,11 @@
 package cdp2.mindle.core;
 
-import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import cdp2.mindle.data.Analysis;
 import cdp2.mindle.data.AnalysisComponent;
 import cdp2.mindle.data.ExtensionInformation;
+import cdp2.mindle.data.Script;
 import cdp2.mindle.manager.AnalysisManager;
 import cdp2.mindle.manager.FileManager;
 import cdp2.mindle.manager.InformationManager;
@@ -69,9 +69,17 @@ public class CoreManager {
 			byte[] dataBytes = SmartBuffer.binaryStringToByteArray(bits);
 			int sum = 0;
 			for (byte iter : dataBytes) {
-				sum = (sum + iter) % 256;
+				int value = (int)iter;
+				
+				if (iter < 0) {
+					value = (int)iter + 256;
+				}
+				sum += value;
 			}
 			bits += SmartBuffer.intToBinaryArray(256 - sum, 8);
+			bits += SmartBuffer.intToBinaryArray(0, 8);
+			System.out.println(sum);
+			System.err.println(bits);
 			
 			fileManager.saveFile(path, SmartBuffer.binaryStringToByteArray(bits));
 			
@@ -92,7 +100,7 @@ public class CoreManager {
 		try {
 			informationManager.setTarget(type, isTrue);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+//			System.out.println(e.getMessage());
 		}
 	}
 	
@@ -100,7 +108,7 @@ public class CoreManager {
 		try {
 			informationManager.setLanguage(language);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+//			System.out.println(e.getMessage());
 		}
 	}
 	
@@ -119,5 +127,10 @@ public class CoreManager {
 	public void setAnalysisHeaderExist(boolean isExist, int index)
 	{
 		analysisManager.setHeaderExist(isExist, index);
+	}
+	
+	public void setScriptList(List<Script> scripts) 
+	{
+		scriptManager.setScriptList(scripts);
 	}
 }

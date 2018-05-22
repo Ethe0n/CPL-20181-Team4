@@ -20,7 +20,14 @@ public class ScriptManager
 	
 	public String toBinary()
 	{
-		return "";
+		String bits = "";
+		
+		bits += SmartBuffer.intToBinaryArray(scriptList.size(), 16);
+		for (Script iter : scriptList) {
+			bits += iter.getBits();
+		}
+		
+		return bits;
 	}
 	
 	public void parse(String binary)

@@ -20,7 +20,14 @@ public class AnalysisManager {
 	
 	public String toBinary()
 	{
-		return "";
+		String bits = "";
+		
+		bits += SmartBuffer.intToBinaryArray(analysisList.size(), 16);
+		for (Analysis iter : analysisList) {
+			bits += iter.toBinary();
+		}
+		
+		return bits;
 	}
 	
 	public void setAnalysisList(List<Analysis> list)

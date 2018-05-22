@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 
 import cdp2.mindle.gui.MainFrame;
+import cdp2.mindle.manager.SmartBuffer;
 
 public class Main {
 	public static void main(String[] args)

@@ -39,7 +39,7 @@ public class ScriptNotice extends Script{
 	@Override
 	public String toBinary()
 	{
-		String bits = super.toBinary();
+		String bits = "1000";
 		
 		bits += SmartBuffer.variableStrToBinaryArray(id, 12);
 		bits += SmartBuffer.variableStrToBinaryArray(notice, 16);

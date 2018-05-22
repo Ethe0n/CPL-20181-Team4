@@ -110,7 +110,7 @@ public class SmartBuffer {
 		String bits = "";
 		
 		for (int i = 0; i < bitSize; ++i) {
-			bits += (value >> i) & 1;
+			bits += (value >> (bitSize - 1 - i)) & 1;
 		}
 		
 		return bits;
@@ -131,15 +131,9 @@ public class SmartBuffer {
 	
 	public static String variableStrToBinaryArray(String s, int bitSize) 
 	{
-		byte[] sBytes = s.getBytes();
-		int sLength = sBytes.length;
-		String bits = "";
+		int sLength = s.getBytes().length;
 		
-		for (int i = 0; i < bitSize; ++i) {
-			bits += (sLength >> i) & 1;
-		}
-		
-		return bits + strToBinaryArray(s);
+		return intToBinaryArray(sLength, bitSize) + strToBinaryArray(s);
 	}
 	
 	public static byte[] binaryStringToByteArray(String s) {

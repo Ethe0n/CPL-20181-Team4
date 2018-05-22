@@ -24,6 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import cdp2.mindle.core.CoreManager;
 import cdp2.mindle.data.Script;
 import cdp2.mindle.manager.ScriptManager;
 

@@ -51,6 +51,7 @@ public class ScriptCommentDialog extends JDialog{
 				ScriptComment scriptcomment = new ScriptComment();
 				scriptcomment.setData(comment);
 				script.setObject(scriptcomment);
+				script.setBits(scriptcomment.toBinary());
 				panel.addRow(script);
 				panel.updateManager();
 				dispose();

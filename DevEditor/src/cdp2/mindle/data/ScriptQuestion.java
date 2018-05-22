@@ -137,7 +137,7 @@ public class ScriptQuestion extends Script{
 	@Override
 	public String toBinary()
 	{
-		String bits = super.toBinary();
+		String bits = "0001";
 		
 		bits += SmartBuffer.variableStrToBinaryArray(id, 12);
 		bits += SmartBuffer.variableStrToBinaryArray(question, 16);

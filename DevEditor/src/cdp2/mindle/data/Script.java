@@ -8,11 +8,13 @@ import cdp2.mindle.manager.SmartBuffer;
 public class Script {
 	private String command;
 	private String data;
+	private String scriptBits;
 	private Object scriptObject;
 	
 	public Script() {
 		command = "";
 		data = "";
+		scriptBits = "";
 		scriptObject = null;
 	}
 	
@@ -24,6 +26,15 @@ public class Script {
 		return scriptObject.toString();
 	}
 	
+	public void setBits(String bits)
+	{
+		this.scriptBits = bits;
+	}
+	
+	public String getBits()
+	{
+		return scriptBits;
+	}
 	
 	public String getCommand() {
 		return command;
@@ -48,13 +59,17 @@ public class Script {
 		String bits = "";
 		switch (command) {
 		case "주석" :
-			bits += "0000"; break;
+			bits += "0000"; 
+			break;
 		case "안내문" :
-			bits += "1000";	break;
+			bits += "1000";	
+			break;
 		case "질문" :
-			bits += "0001"; break;
+			bits += "0001"; 
+			break;
 		case "프리셋" :
-			bits += "0010"; break;
+			bits += "0010"; 
+			break;
 		}
 		
 		return bits;

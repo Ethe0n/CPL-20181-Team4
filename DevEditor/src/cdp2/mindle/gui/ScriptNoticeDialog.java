@@ -59,6 +59,7 @@ public class ScriptNoticeDialog extends JDialog{
 				scriptNotice.setNotice(notice);
 				
 				script.setObject(scriptNotice);
+				script.setBits(scriptNotice.toBinary());
 				panel.addRow(script);
 				panel.updateManager();
 				dispose();

@@ -186,7 +186,7 @@ public class ScriptPresetDialog extends JDialog {
 				
 				
 				script.setObject(scriptPreset);
-				
+				script.setBits(scriptPreset.toBinary());
 				panel.addRow(script);
 				panel.updateManager();
 				dispose();

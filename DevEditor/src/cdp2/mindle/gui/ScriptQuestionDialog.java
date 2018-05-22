@@ -445,6 +445,7 @@ public class ScriptQuestionDialog extends JDialog{
 				}
 				   
 				script.setObject(scriptQuestion);
+				script.setBits(scriptQuestion.toBinary());
 				
 				mainPanel.addRow(script);
 				mainPanel.updateManager();

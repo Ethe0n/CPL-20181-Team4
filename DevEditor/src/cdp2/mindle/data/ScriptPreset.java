@@ -59,13 +59,15 @@ public class ScriptPreset extends Script{
 	@Override
 	public String toBinary()
 	{
-		String bits = super.toBinary();
+		String bits = "0010";
 		
 		bits += SmartBuffer.intToBinaryArray(Integer.parseInt(id), 6);
 		bits += SmartBuffer.intToBinaryArray(minAns, 4);
 		bits += SmartBuffer.intToBinaryArray(maxAns, 4);
 		bits += SmartBuffer.intToBinaryArray(presetTable.size(), 6);
-		
+		for (ScriptPresetTable iter : presetTable) {
+			bits += iter.toBinary();
+		}
 		
 		return bits;
 	}

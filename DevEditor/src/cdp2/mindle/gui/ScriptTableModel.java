@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import cdp2.mindle.core.CoreManager;
 import cdp2.mindle.data.ExtensionInformation;
 import cdp2.mindle.data.Script;
 
@@ -69,11 +70,13 @@ public class ScriptTableModel extends AbstractTableModel {
 
 	public void addRow(Script scInfo) {
 		data.add(scInfo);
+		CoreManager.getInstance().setScriptList(data);
 		fireTableRowsInserted(getRowCount() - 1, getRowCount() - 1);
 	}
 
 	public void deleteRow(int row) {
 		data.remove(row);
+		CoreManager.getInstance().setScriptList(data);
 		fireTableDataChanged();
 	}
 	
@@ -83,6 +86,7 @@ public class ScriptTableModel extends AbstractTableModel {
 		temp = data.get(row);
 		data.set(row, data.get(row - 1));
 		data.set(row - 1, temp);
+		CoreManager.getInstance().setScriptList(data);
 		fireTableDataChanged();
 	}
 	
@@ -92,6 +96,7 @@ public class ScriptTableModel extends AbstractTableModel {
 		temp = data.get(row);
 		data.set(row, data.get(row + 1));
 		data.set(row + 1, temp);
+		CoreManager.getInstance().setScriptList(data);
 		fireTableDataChanged();
 	}
 
