@@ -31,7 +31,7 @@ public class CoreInformation {
 		String bits = "";
 		int verInt = Integer.parseInt(version.replace(".", ""));
 		
-		bits += SmartBuffer.strToBinaryArray(signature);
+		bits += SmartBuffer.strToBinaryArray(signature.toUpperCase());
 		bits += SmartBuffer.intToBinaryArray(verInt, 16);
 		
 		return bits;

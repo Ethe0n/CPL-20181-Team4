@@ -123,7 +123,7 @@ public class SmartBuffer {
 		String bits = "";
 		
 		for (int i = 0; i < sLength * 8; ++i) {
-			bits += (sBytes[i / 8] >> i) & 1;
+			bits += (sBytes[i / 8] >> (7 - i % 8)) & 1;
 		}
 		
 		return bits;
