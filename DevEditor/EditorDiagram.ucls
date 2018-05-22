@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.2" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="cdp2.mindle.data.Analysis" project="DevEditor" 
+    file="/DevEditor/src/cdp2/mindle/data/Analysis.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="297" width="137" x="311" y="-1"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="cdp2.mindle.data.ScriptPresetTable" project="DevEditor" 
+    file="/DevEditor/src/cdp2/mindle/data/ScriptPresetTable.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="243" width="245" x="1267" y="1123"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="cdp2.mindle.data.ScriptQuestionTable" project="DevEditor" 
+    file="/DevEditor/src/cdp2/mindle/data/ScriptQuestionTable.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="261" width="245" x="982" y="1123"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="cdp2.mindle.data.AnalysisComponent" project="DevEditor" 
+    file="/DevEditor/src/cdp2/mindle/data/AnalysisComponent.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="315" width="234" x="311" y="408"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="cdp2.mindle.data.ExtensionInformation" project="DevEditor" 
+    file="/DevEditor/src/cdp2/mindle/data/ExtensionInformation.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="261" width="152" x="585" y="408"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="cdp2.mindle.data.Information" project="DevEditor" 
+    file="/DevEditor/src/cdp2/mindle/data/Information.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="369" width="248" x="488" y="-1"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="cdp2.mindle.core.Main" project="DevEditor" 
+    file="/DevEditor/src/cdp2/mindle/core/Main.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="99" width="113" x="776" y="-1"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="cdp2.mindle.core.CoreManager" project="DevEditor" 
+    file="/DevEditor/src/cdp2/mindle/core/CoreManager.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="333" width="301" x="929" y="-1"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="cdp2.mindle.data.ScriptNotice" project="DevEditor" 
+    file="/DevEditor/src/cdp2/mindle/data/ScriptNotice.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="207" width="130" x="1544" y="408"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="cdp2.mindle.core.CoreInformation" project="DevEditor" 
+    file="/DevEditor/src/cdp2/mindle/core/CoreInformation.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="261" width="224" x="1280" y="-1"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="cdp2.mindle.data.Script" project="DevEditor" 
+    file="/DevEditor/src/cdp2/mindle/data/Script.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="243" width="147" x="1544" y="-1"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="cdp2.mindle.data.ScriptQuestion" project="DevEditor" 
+    file="/DevEditor/src/cdp2/mindle/data/ScriptQuestion.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="675" width="233" x="990" y="408"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="cdp2.mindle.data.ScriptPreset" project="DevEditor" 
+    file="/DevEditor/src/cdp2/mindle/data/ScriptPreset.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="297" width="241" x="1263" y="408"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="cdp2.mindle.data.ScriptComment" project="DevEditor" 
+    file="/DevEditor/src/cdp2/mindle/data/ScriptComment.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="153" width="122" x="1714" y="408"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="cdp2.mindle.data.ScriptPresetGroupTable" project="DevEditor" 
+    file="/DevEditor/src/cdp2/mindle/data/ScriptPresetGroupTable.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="261" width="160" x="1124" y="1424"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="16">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="17" name="instance"/>      
+      <multiplicity id="18" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="19">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="11"/>  
+  </generalization>  
+  <association id="20">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="21" name="group"/>      
+      <multiplicity id="22" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="23">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="11"/>  
+  </generalization>  
+  <association id="24">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="25" name="extension"/>      
+      <multiplicity id="26" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="27">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="28" name="componentList"/>      
+      <multiplicity id="29" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="30">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="11"/>  
+  </generalization>  
+  <association id="31">    
+    <end type="SOURCE" refId="12" navigable="false">      
+      <attribute id="32" name="custom"/>      
+      <multiplicity id="33" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="34">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="35" name="presetTable"/>      
+      <multiplicity id="36" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="37">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="11"/>  
+  </generalization>  
+  <association id="38">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="39" name="group"/>      
+      <multiplicity id="40" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
